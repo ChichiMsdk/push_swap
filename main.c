@@ -9,151 +9,13 @@ static int	ft_isspace(char c)
 	return (0);
 }
 
-struct s_stack
-{
-	int *stack_a;
-	int *stack_b;
-	int size;
-};
-
-struct s_stack	*init_stack(int size)
-{
-	struct s_stack *stack;
-	in;
-	stack = (struct s_stack *)malloc(sizeof(struct s_stack));
-	stack->stack_a = (int *)malloc(sizeof(int) * size);
-	stack->stack_b = (int *)malloc(sizeof(int) * size);
-	stack->size = size;
-	return (stack);
-}
-
-void	push_a(struct s_stack *stack)
-{
-	int i;
-
-	i = 0;
-	while (i < stack->size)
-	{
-		stack->stack_a[i] = stack->stack_b[i];
-		i++;
-	}
-}
-
-void	push_b(struct s_stack *stack)
-{
-	int i;
-
-	i = 0;
-	while (i < stack->size)
-	{
-		stack->stack_b[i] = stack->stack_a[i];
-		i++;
-	}
-}
-
-void	swap_a(struct s_stack *stack)
-{
-	int tmp;
-
-	tmp = stack->stack_a[0];
-	stack->stack_a[0] = stack->stack_a[1];
-	stack->stack_a[1] = tmp;
-}
-
-void	swap_b(struct s_stack *stack)
-{
-	int tmp;
-
-	tmp = stack->stack_b[0];
-	stack->stack_b[0] = stack->stack_b[1];
-	stack->stack_b[1] = tmp;
-}
-
-void	swap_ab(struct s_stack *stack)
-{
-	swap_a(stack);
-	swap_b(stack);
-}
-
-void	rotate_a(struct s_stack *stack)
-{
-	int i;
-	int tmp;
-
-	i = 0;
-	tmp = stack->stack_a[0];
-	while (i < stack->size - 1)
-	{
-		stack->stack_a[i] = stack->stack_a[i + 1];
-		i++;
-	}
-	stack->stack_a[i] = tmp;
-}
-
-void	rotate_b(struct s_stack *stack)
-{
-	int i;
-	int tmp;
-
-	i = 0;
-	tmp = stack->stack_b[0];
-	while (i < stack->size - 1)
-	{
-		stack->stack_b[i] = stack->stack_b[i + 1];
-		i++;
-	}
-	stack->stack_b[i] = tmp;
-}
-
-void	rotate_ab(struct s_stack *stack)
-{
-	rotate_a(stack);
-	rotate_b(stack);
-}
-
-void	reverse_rotate_a(struct s_stack *stack)
-{
-	int i;
-	int tmp;
-
-	i = stack->size - 1;
-	tmp = stack->stack_a[i];
-	while (i > 0)
-	{
-		stack->stack_a[i] = stack->stack_a[i - 1];
-		i--;
-	}
-	stack->stack_a[i] = tmp;
-}
-
-void	reverse_rotate_b(struct s_stack *stack)
-{
-	int i;
-	int tmp;
-
-	i = stack->size - 1;
-	tmp = stack->stack_b[i];
-	while (i > 0)
-	{
-		stack->stack_b[i] = stack->stack_b[i - 1];
-		i--;
-	}
-	stack->stack_b[i] = tmp;
-}
-
-void	reverse_rotate_ab(struct s_stack *stack)
-{
-	reverse_rotate_a(stack);
-	reverse_rotate_b(stack);
-}
-
-
 int	ft_atoi(const char *str)
 {
 	int				sign;
 	long int		result;
 	long int		tmp;
 
+	int thereIsInt = 0;
 	sign = 1;
 	result = 0;
 	while (ft_isspace(*str) == 1)
@@ -165,7 +27,8 @@ int	ft_atoi(const char *str)
 		str++;
 	}
 	while (*str >= 48 && *str <= 57)
-	{
+	{	
+		thereIsInt = 1;
 		tmp = result;
 		result = (result * 10) + (*str - 48);
 		str++;
@@ -174,29 +37,117 @@ int	ft_atoi(const char *str)
 		if (result < tmp && sign == -1)
 			return (0);
 	}
+	if (thereIsInt == 0)
+		return (-1);
 	return ((int)result * sign);
 }
 
+void	add_node(node *a ,int value)
+{
+	node	*new_node;
+	new_node = malloc(sizeof(node));
+	new_node->value = value;
+	if (a->next == NULL)
+	{
+		a->next = new_node;
+	}
+	else
+	{
+		node *tmp;
+		tmp = a->next;
+		while (tmp->next != NULL)
+			tmp = tmp->next;
+		tmp->next = new_node;
+	}
+	new_node->next = NULL;
+}
+
+void	init_node(node *b, int size)
+{
+	while (size >0)
+	{
+		add_node(b,0);
+		size--;
+	}
+}
+
+void	swap(node *a)
+{
+	if (a->next == NULL || a->next->next == NULL)
+	{
+		printf("CANT SWAP ELEMENTS, ONE PROBABLY DOESNT EXIST\n");
+		exit(1);
+	}
+
+	int tmp;
+	tmp = a->next->value;
+	a->next->value = a->next->next->value;
+	a->next->next->value = tmp;
+}
+
+void rotate(node *a)
+{
+	if (a->next == NULL || a->next->next == NULL)
+	{
+		printf("CANT ROTATE ELEMENTS\n");
+		exit(1);
+	}
+	node *current;
+	int last;
+	current = a->next;
+	current->prev = NULL;
+	while ( current->next != NULL )
+	{
+		current->next->prev = current;
+		current = current->next;
+	}
+	last = current->value;
+	while (current->prev != NULL)
+	{
+		current->value = current->prev->value;
+		current = current->prev;
+	}
+	current->value = last;
+}
+
+void	print_stack(node *a,node *b, int argc)
+{
+	int i = 0;
+	node *u;
+	node *ub;
+	ub = b;
+	u = a;
+	while(i < argc-1 && u->next != NULL)
+	{
+		u = u->next;
+		printf("[%d]       [%d]\n", u->value, ub->value );
+		i++;
+	}
+	printf("-----------\n");
+
+}
+
+void push(node *dest, node *src)
+{
+	if (src->next == NULL || dest->next == NULL)
+	{
+		exit(1);
+	}
+	//copy value from src to dest and then delete (free) src and rotate dest
+}
 
 int	main(int argc, char **argv)
 {
 	if (argc <= 1)
 	{
-		printf("Wrong number of arguments\n");
+		printf("Error\n");
 		exit(1);
 	}
-	//push_swap
-	//printf("argc = %d\n", argc);
 	int i = 0;
 	int j = 1;
-	int stack_a[argc];
-	int stack_b[argc];
-	while(i < argc-1)
-	{
-		stack_b[i] = i;
-		i++;
-	}
-	i = 0;
+	//int size = argc -1;
+	node *a = malloc(sizeof(node));
+	node *b = malloc(sizeof(node));
 	while(i < argc-1 && j < argc)
 	{
 		if (ft_atoi(argv[j]) == -1)
@@ -204,16 +155,37 @@ int	main(int argc, char **argv)
 			printf("Error\n");
 			exit(1);
 		}
-		stack_a[i] = ft_atoi(argv[j]);
+		add_node(a,ft_atoi(argv[j]));
 		i++;
 		j++;
 	}
-	//stack_a[i] = 0;
-	i = 0;
-	while(i < argc-1)
+	//init_node(b, size);
+	char input;
+
+	print_stack(a,b, argc);
+	while (1)
 	{
-		printf("[%d][%d]\n",stack_a[i], stack_b[i]);
-		i++;
+		input = getchar();
+		switch(input)
+		{
+			case 'r':
+				rotate(a);
+				print_stack(a,b, argc);
+				break;
+			case 'f':
+				print_stack(a,b, argc);
+				break;
+			case 's':
+				swap(a);
+				print_stack(a,b, argc);
+				break;
+			case 'p':
+				printf("=============\nSTOPPING....\n=============\n");
+				return(0);
+			default:
+				printf("Invalid input\n---------\n");
+				break;
+		}
+		while (getchar() != '\n');
 	}
-	//printf("a         b\n");
 }

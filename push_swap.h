@@ -5,5 +5,12 @@
 # include <stdio.h>
 # include <limits.h>
 # include <stdbool.h>
-# include "libft/libft.h"
 #endif
+
+typedef struct node 
+{
+	int		value;
+	struct	node	*next;
+	struct	node	*prev;
+
+}node;
