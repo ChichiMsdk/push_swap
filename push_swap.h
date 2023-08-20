@@ -18,9 +18,8 @@ typedef struct node
 }node;
 
 int			ft_atoi(const char *str);
-static	int	ft_isspace(char c);
+int			ft_isspace(char c);
 void		add_node(node *a, int value, int head);
-void		print_stack(node *a, node *b, int argc);
 void		remove_node(node *remove);
 void		swap(node *a);
 void		push(node *dest, node *src);
