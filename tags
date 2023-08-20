@@ -1,4 +1,0 @@
-Mmain	main.c	/^int	main(int argc, char **argv)$/
-ft_atoi	main.c	/^int	ft_atoi(const char *str)$/
-ft_isspace	main.c	/^static int	ft_isspace(char c)$/
-s_container	push_swap.h	/^}s_container;$/
