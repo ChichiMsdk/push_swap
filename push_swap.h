@@ -9,7 +9,7 @@
 
 typedef struct node 
 {
-	int		value;
+	int				value;
 	struct	node	*next;
 	struct	node	*prev;
 

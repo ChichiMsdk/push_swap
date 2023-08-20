@@ -1,4 +1,4 @@
-SRCS = main.c
+SRCS = main.c push_swap.h
 
 CC = gcc 
 CC_FLAGS = -Llibft 

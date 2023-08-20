@@ -50,6 +50,7 @@ void	add_node(node *a ,int value)
 	if (a->next == NULL)
 	{
 		a->next = new_node;
+		new_node->prev = a;
 	}
 	else
 	{
@@ -58,8 +59,18 @@ void	add_node(node *a ,int value)
 		while (tmp->next != NULL)
 			tmp = tmp->next;
 		tmp->next = new_node;
+		new_node->prev = tmp;
 	}
 	new_node->next = NULL;
+//	static int i = 1;
+//	while ( a != NULL )
+//	{
+//		a = a->next;
+//		if ( !a )
+//			break;
+//		printf("|%d|   %d\n", a->value,i);
+//		i++;
+//	}
 }
 
 void	init_node(node *b, int size)
@@ -67,6 +78,7 @@ void	init_node(node *b, int size)
 	while (size >0)
 	{
 		add_node(b,0);
+	
 		size--;
 	}
 }
@@ -117,23 +129,46 @@ void	print_stack(node *a,node *b, int argc)
 	node *ub;
 	ub = b;
 	u = a;
-	while(i < argc-1 && u->next != NULL)
+	while(i < argc-1 && u != NULL && ub != NULL) 
 	{
-		u = u->next;
-		printf("[%d]       [%d]\n", u->value, ub->value );
-		i++;
+		if (a->next && b->next )
+		{	
+			ub = ub->next;
+			u = u->next;
+			printf("[%d]       [%d]\n", u->value, ub->value );
+			i++;
+		}
+		else if (a->next && !(b->next))
+		{
+			u = u->next;
+			printf("[%d]    []\n", u->value);
+			i++;
+		}
+		else
+		{
+			printf("Error\n");
+			exit(1);
+		}
 	}
 	printf("-----------\n");
 
 }
 
+void	remove_node(node *remove)
+{
+	if ( remove == NULL || remove->prev == NULL )
+		printf("CANT REMOVE NODE\n");
+	node *tmp;
+	tmp = remove->next;
+	remove->next = remove->next->next;
+	free(tmp);
+}
+
 void push(node *dest, node *src)
 {
-	if (src->next == NULL || dest->next == NULL)
-	{
-		exit(1);
-	}
-	//copy value from src to dest and then delete (free) src and rotate dest
+	
+	add_node(dest, src->value);
+	remove_node(src);
 }
 
 int	main(int argc, char **argv)
@@ -147,7 +182,9 @@ int	main(int argc, char **argv)
 	int j = 1;
 	//int size = argc -1;
 	node *a = malloc(sizeof(node));
+	a->prev = NULL;
 	node *b = malloc(sizeof(node));
+	b->prev = NULL;
 	while(i < argc-1 && j < argc)
 	{
 		if (ft_atoi(argv[j]) == -1)
@@ -162,12 +199,16 @@ int	main(int argc, char **argv)
 	//init_node(b, size);
 	char input;
 
-	print_stack(a,b, argc);
+	print_stack(a, b, argc);
 	while (1)
 	{
 		input = getchar();
 		switch(input)
 		{
+			case 'a':
+				push(b, a);
+				print_stack(a,b,argc);
+				break;
 			case 'r':
 				rotate(a);
 				print_stack(a,b, argc);
