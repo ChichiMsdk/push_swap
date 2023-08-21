@@ -88,9 +88,32 @@ void	swap(node *a)
 	}
 }
 
-void rotate(node *a)
+void	r_rotate(node *reverse)
 {
-	if (a->next == NULL || a->next->next == NULL)
+	if ( !reverse->next || !reverse->next->next )
+	{
+		printf("Error\n");
+		exit(1);
+	}
+	else
+	{
+		node *current;
+		int first;
+
+		current = reverse->next;
+		first = current->value;
+		while ( current->next )
+		{
+			current->value = current->value;
+			current = current->next;
+		}
+		current->value = first;
+	}
+}
+
+void	rotate(node *rotate)
+{	
+	if ( !rotate->next  || !rotate->next->next )
 	{
 		printf("Error\n");
 		exit(1);
@@ -99,11 +122,12 @@ void rotate(node *a)
 	{
 		node *current;
 		int last;
-		current = a->next;
-		current->prev = NULL;
-		while ( current->next != NULL )
+
+		current = rotate->next;
+		// current->prev = NULL;
+		while ( current->next )
 		{
-			current->next->prev = current;
+		//	current->next->prev = current;
 			current = current->next;
 		}
 		last = current->value;
@@ -130,7 +154,7 @@ void	remove_node(node *remove)
 	tmp = NULL;
 }
 
-void push(node *dest, node *src)
+void	push(node *dest, node *src)
 {
 	if (!src->next)
     {
@@ -142,4 +166,22 @@ void push(node *dest, node *src)
         add_node(dest, src->next->value, 1);
         remove_node(src);
     }
+}
+
+void	s_swap(node *a, node *b)
+{
+	swap(a);
+	swap(b);
+}
+
+void	s_rot(node *a, node *b)
+{
+	rotate(a);
+	rotate(b);
+}
+
+void	s_rev(node *a, node *b)
+{
+	r_rotate(a);
+	r_rotate(b);
 }
