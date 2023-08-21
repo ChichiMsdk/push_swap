@@ -24,7 +24,7 @@ void		remove_node(node *remove);
 void		swap(node *a);
 void		push(node *dest, node *src);
 void		rotate(node *rotate);
-void		reverse_rotate(node *reverse);
+void		r_rotate(node *reverse);
 void		init_node(node *b, int size);
 void		s_swap(node *a, node *b);
 void		s_rot(node *a, node *b);

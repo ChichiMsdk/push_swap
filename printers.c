@@ -14,10 +14,10 @@ void	print_stack(node *a,node *b, int argc)
 			printf("\n[%d]       ", u->value);
             u = u->next;
 		}
-	//	else
-	//	{
-	//		printf("          ");
-	//	}
+		else
+		{
+			printf("          ");
+		}
 		if (ub)
 		{
 			printf("[%d]\n", ub->value);
@@ -29,8 +29,8 @@ void	print_stack(node *a,node *b, int argc)
 		}
 		i++;
 	}
-	printf("===\n");
-	printf("a b\n");
+	printf("============\n");
+	printf("a          b\n");
 
 }
 

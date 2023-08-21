@@ -32,12 +32,14 @@ void	fill_node_a(int argc, node *a, char **argv)
 int	main(int argc, char **argv)
 {
 	//initscr();
+	//noecho();
 	if (argc <= 1)
 	{
 		printf("Error\n");
 		exit(1);
 	}
 	char input;
+//	int input;
 
 	node *a = init_new_node("a");
 	node *b = init_new_node("b");
@@ -48,6 +50,18 @@ int	main(int argc, char **argv)
 		input = getchar();
 		switch(input)
 		{
+			case 'k':
+				s_rev(a, b);
+				print_stack(a, b, argc);
+				break;
+			case 'm':
+				s_rot(a, b);
+				print_stack(a, b, argc);
+				break;
+			case 'o':
+				r_rotate(a);
+				print_stack(a, b, argc);
+				break;
 			case 'b':
 				push(a, b);
 				print_stack(a, b, argc);

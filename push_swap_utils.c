@@ -89,7 +89,7 @@ void	swap(node *a)
 
 void	r_rotate(node *reverse)
 {
-	if ( !reverse->next || !reverse->next->next )
+	if (!reverse->next || !reverse->next->next || !reverse->next->next->next )
 	{
 		printf("Error\n");
 	}
@@ -102,7 +102,7 @@ void	r_rotate(node *reverse)
 		first = current->value;
 		while ( current->next )
 		{
-			current->value = current->value;
+			current->value = current->next->value;
 			current = current->next;
 		}
 		current->value = first;
@@ -111,7 +111,7 @@ void	r_rotate(node *reverse)
 
 void	rotate(node *rotate)
 {	
-	if ( !rotate->next  || !rotate->next->next )
+	if (!rotate->next || !rotate->next->next  || !rotate->next->next->next )
 	{
 		printf("Error\n");
 	}
@@ -121,10 +121,10 @@ void	rotate(node *rotate)
 		int last;
 
 		current = rotate->next;
-		// current->prev = NULL;
+		current->prev = NULL;
 		while ( current->next )
 		{
-		//	current->next->prev = current;
+			current->next->prev = current;
 			current = current->next;
 		}
 		last = current->value;
