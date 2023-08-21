@@ -29,3 +29,4 @@ void		init_node(node *b, int size);
 void		s_swap(node *a, node *b);
 void		s_rot(node *a, node *b);
 void		s_rev(node *a, node *b);
+void		print_stack(node *a, node *b, int argc);

@@ -77,7 +77,6 @@ void	swap(node *a)
 	if (!a->next || !a->next->next)
 	{
 		printf("Error\n");
-		exit(1);
 	}
 	else if (a->next && a->next->next)
 	{
@@ -93,7 +92,6 @@ void	r_rotate(node *reverse)
 	if ( !reverse->next || !reverse->next->next )
 	{
 		printf("Error\n");
-		exit(1);
 	}
 	else
 	{
@@ -116,7 +114,6 @@ void	rotate(node *rotate)
 	if ( !rotate->next  || !rotate->next->next )
 	{
 		printf("Error\n");
-		exit(1);
 	}
 	else 
 	{
@@ -145,13 +142,15 @@ void	remove_node(node *remove)
 	if ( remove == NULL || remove->prev != NULL )
 	{
 		printf("Error\n");
-		exit(1);
 	}
-	node *tmp;
-	tmp = remove->next;
-	remove->next = remove->next->next;
-	free(tmp);
-	tmp = NULL;
+	else
+	{
+		node *tmp;
+		tmp = remove->next;
+		remove->next = remove->next->next;
+		free(tmp);
+		tmp = NULL;
+	}
 }
 
 void	push(node *dest, node *src)
@@ -159,7 +158,6 @@ void	push(node *dest, node *src)
 	if (!src->next)
     {
 		printf("Error\n");
-		exit(1);
     }
     if ( src->next)
     {
