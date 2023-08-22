@@ -1,6 +1,8 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 # include <unistd.h>
+# include "/opt/homebrew/Cellar/sdl2/2.28.2/include/SDL2/SDL.h"
+//# include "SDL2/SDL.h"
 # include <stdlib.h>
 # include <stdio.h>
 # include <limits.h>
@@ -8,8 +10,18 @@
 # include <ncurses.h>
 #endif
 
+#define WINDOW_WIDTH 1000
+#define WINDOW_HEIGHT 600
+
+typedef	struct color {
+			int r;
+			int g;
+			int b;
+}color;
+
 typedef struct node 
 {
+	double			scaled;
 	int				value;
 	char			*name;
 	struct	node	*next;
@@ -30,3 +42,4 @@ void		s_swap(node *a, node *b);
 void		s_rot(node *a, node *b);
 void		s_rev(node *a, node *b);
 void		print_stack(node *a, node *b, int argc);
+void		print_graph(int value);
