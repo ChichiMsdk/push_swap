@@ -1,13 +1,14 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 # include <unistd.h>
-# include "/opt/homebrew/Cellar/sdl2/2.28.2/include/SDL2/SDL.h"
-//# include "SDL2/SDL.h"
+//# include "/opt/homebrew/Cellar/sdl2/2.28.2/include/SDL2/SDL.h"
+//# include "SDL2/SLD.h"
+# include "x86_64-w64-mingw32/include/SDL2/SDL.h"
 # include <stdlib.h>
 # include <stdio.h>
 # include <limits.h>
 # include <stdbool.h>
-# include <ncurses.h>
+//# include <ncurses.h>
 #endif
 
 #define WINDOW_WIDTH 1000
@@ -31,7 +32,7 @@ typedef struct node
 
 int			ft_atoi(const char *str);
 int			ft_isspace(char c);
-void		add_node(node *a, int value, int head);
+void * add_node(node *a, int value, int head);
 void		remove_node(node *remove);
 void		swap(node *a);
 void		push(node *dest, node *src);

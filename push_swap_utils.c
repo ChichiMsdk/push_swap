@@ -42,10 +42,12 @@ int	ft_atoi(const char *str)
 	return ((int)result * sign);
 }
 
-void	add_node(node *a ,int value, int head)
+void * add_node(node *a , int value, int head)
 {
 	node	*new_node;
 	new_node = malloc(sizeof(node));
+    if (!new_node)
+        return (NULL);
 	new_node->value = value;
 	if (a->next == NULL)
 	{

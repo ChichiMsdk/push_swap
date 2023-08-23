@@ -4,6 +4,8 @@ node*	init_new_node(char *name)
 {
 	node *new;
 	new = malloc(sizeof(node));
+    if (!new)
+        return(NULL);
 	new->prev = NULL;
 	new->name = name;
 	return (new);
@@ -98,6 +100,7 @@ void	scale_bar(node *a, double min, double max)
 
 int	sdl_start(int max, int min, node *tmp, node *a, int numBars)
 {
+	printf("salut");
 	tmp = a->next;
 	while ( tmp->next )
 	{
@@ -107,8 +110,15 @@ int	sdl_start(int max, int min, node *tmp, node *a, int numBars)
 	numBars++;
 
 	SDL_Init(SDL_INIT_VIDEO);
+	if (SDL_Init(SDL_INIT_VIDEO) != 0)
+	{
+		printf("SDL_Init Error: %s", SDL_GetError());
+		return (0);
+	}
+
     SDL_Window *window = SDL_CreateWindow("Bar Graph", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    //SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_SOFTWARE );
     int barWidth = WINDOW_WIDTH / (numBars * 2);
 	scale_bar(a, min, max);
     while (1) 
@@ -205,7 +215,9 @@ int	main(int argc, char **argv)
 
 	error =	sdl_start(max, min, tmp, a , numBars);
 	if ( error == 0 )
+	{	
 		return(0);
+	}
 		
 //	char input;
 //
