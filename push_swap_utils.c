@@ -42,6 +42,24 @@ int	ft_atoi(const char *str)
 	return ((int)result * sign);
 }
 
+void    colorGR(node *tmp)
+{
+    double t = (double)(tmp->value)/(max-min);
+    if (t <= 0.5 )
+    {
+        tmp->skin.r = 255;
+    }
+    else
+    {
+        tmp->skin.r = 255*(1.0 - smoothstep(2.0*(t-0.5)));
+    }
+    if (t<=0.5)
+        tmp->skin.g = 255 * smoothstep(2.0*t);
+    else
+        tmp->skin.g= 255;
+    tmp->skin.b = 0;
+}
+
 void * add_node(node *a , int value, int head)
 {
 	node	*new_node;
@@ -49,16 +67,22 @@ void * add_node(node *a , int value, int head)
     if (!new_node)
         return (NULL);
 	new_node->value = value;
+    if(!a)
+        return(a);
+
 	if (a->next == NULL)
 	{
 		a->next = new_node;
 		new_node->prev = a;
+        new_node->next = NULL;
+        attente = 1;
+        return(new_node);
 	}
-	else if (!head)
+	if (!head)
 	{
 		node *tmp;
 		tmp = a->next;
-		while (tmp->next != NULL)
+		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new_node;
 		new_node->prev = tmp;
@@ -70,8 +94,9 @@ void * add_node(node *a , int value, int head)
         a->next = new_node;
         new_node->next = tmp;
         new_node->prev = a;
-        tmp->prev = new_node;
+        attente= 1;
     }
+    return(new_node);
 }
 
 void	swap(node *a)
@@ -86,6 +111,7 @@ void	swap(node *a)
 		tmp = a->next->value;
 		a->next->value = a->next->next->value;
 		a->next->next->value = tmp;
+        attente=2;
 	}
 }
 
@@ -136,6 +162,7 @@ void	rotate(node *rotate)
 			current = current->prev;
 		}
 		current->value = last;
+        attente=2;
 		}
 }
 
@@ -145,11 +172,18 @@ void	remove_node(node *remove)
 	{
 		printf("Error\n");
 	}
-	else
+    else if (!remove->next->next)
+    {
+        free(remove->next);
+        remove->next = NULL;
+    }
+
+    else
 	{
 		node *tmp;
 		tmp = remove->next;
 		remove->next = remove->next->next;
+		remove->next->prev = remove;
 		free(tmp);
 		tmp = NULL;
 	}
