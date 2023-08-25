@@ -1,8 +1,9 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 # include <unistd.h>
-# include <SDL.h>
-# include <SDL_mixer.h>
+# include <SDL2/SDL.h>
+//# include <SDL2/SDL_mixer.h>
+# include "sdl_mixer/include/SDL2/SDL_mixer.h"
 # include <stdlib.h>
 # include <stdio.h>
 # include <limits.h>
@@ -12,6 +13,7 @@
 //# include <ncurses.h>
 #endif
 extern int numBarsA;
+extern int numBarsB;
 extern int attente;
 #define WINDOW_WIDTH 1200
 #define MIN_WINDOW_HEIGHT 300
@@ -28,16 +30,24 @@ typedef	struct color {
 typedef struct node 
 {
 	double			scaled;
+	double			delay;
+	double			start_scaled;
 	int				value;
-	char			*name;
+	double			progress;
+    double			progressi;
+	int 			name;
 	struct	node	*next;
 	struct	node	*prev;
     struct color    skin;
 
 }node;
 
+void        countBars(node *count);
+double      lerp(double a, double b, double f);
+void        drawing(SDL_Renderer *renderer, node *tmp,node *a, int barWidth);
+void        drawingB(SDL_Renderer *renderer, node *tmpb,node *b, int barWidth);
 double      smoothstep(double x);
-int         sdl_start(node *a,node *b, int numBarsB);
+int         sdl_start(node *a,node *b);
 void        colorGR(node *tmp);
 int			ft_atoi(const char *str);
 int			ft_isspace(char c);
@@ -53,8 +63,11 @@ void		s_rev(node *a, node *b);
 void		print_stack(node *a, node *b, int argc);
 void		print_graph(int value);
 void		scale_bar(node *a);
-node*	    init_new_node(char *name);
-
+node	    *init_new_node(int name);
+void        removingB(SDL_Renderer *renderer, node *tmpb, int barWidth);
+void	    fill_node_a(int argc, node *a, char **argv, int emergency[]);
+double	    find_max(node *a);
+double	    find_min(node *a);
 //fail
 //
 //int			event_listener(SDL_Renderer *renderer, SDL_Window *window, node *a,double min,double max, SDL_Event e);

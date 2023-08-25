@@ -67,6 +67,7 @@ void * add_node(node *a , int value, int head)
     if (!new_node)
         return (NULL);
 	new_node->value = value;
+    new_node->progress = 0;
     if(!a)
         return(a);
 
@@ -131,9 +132,11 @@ void	r_rotate(node *reverse)
 		while ( current->next )
 		{
 			current->value = current->next->value;
-			current = current->next;
+            current->progressi = 0.01;
+            current = current->next;
 		}
 		current->value = first;
+        current->progressi = 0.01;
 	}
 }
 
@@ -158,9 +161,11 @@ void	rotate(node *rotate)
 		last = current->value;
 		while (current->prev != NULL)
 		{
+            current->progressi = 0.01;
 			current->value = current->prev->value;
 			current = current->prev;
 		}
+        current->progressi = 0.01;
 		current->value = last;
         attente=2;
 		}
@@ -168,9 +173,9 @@ void	rotate(node *rotate)
 
 void	remove_node(node *remove)
 {
-	if ( remove == NULL || remove->prev != NULL )
-	{
-		printf("Error\n");
+    if ( remove == NULL || remove->prev != NULL )
+    {
+        printf("Error\n");
 	}
     else if (!remove->next->next)
     {
@@ -218,4 +223,188 @@ void	s_rev(node *a, node *b)
 {
 	r_rotate(a);
 	r_rotate(b);
+}
+
+void    drawing(SDL_Renderer *renderer, node *tmp,node *a, int barWidth)
+{
+    if (a->next) {
+        tmp = a->next;
+        int i = 0;
+        while (i < numBarsA && tmp) {
+            if ( tmp->progress < 1)
+            {
+                if (tmp->progress < 0.7)
+                    tmp->progress += 0.03;
+                if (tmp->progress >= 0.7)
+                    tmp->progress += 0.01;
+                if (tmp->progress >= 1)
+                    tmp->progress = 1;
+                tmp->scaled = lerp(tmp->start_scaled, tmp->scaled, tmp->progress);
+            }
+            colorGR(tmp);
+            SDL_SetRenderDrawColor(renderer, tmp->skin.r, tmp->skin.g, tmp->skin.b, 255);
+            SDL_Rect rect = {0, i * 2 * barWidth, tmp->scaled, barWidth};
+            SDL_RenderFillRect(renderer, &rect);
+            i++;
+            tmp = tmp->next;
+        }
+    }
+}
+
+void    removingB(SDL_Renderer *renderer, node *tmpb, int barWidth)
+{
+        int i = 10;
+        while (tmpb->progress>0)
+        {
+
+            if (tmpb->progress > 0.7)
+                tmpb->progress -= 0.03;
+            if (tmpb->progress <= 0.7)
+                tmpb->progress -= 0.01;
+            if (tmpb->progress <= 0)
+                tmpb->progress = 0;
+            tmpb->scaled = lerp(0, tmpb->scaled, tmpb->progress);
+
+            colorGR(tmpb);
+            SDL_SetRenderDrawColor(renderer, tmpb->skin.r, tmpb->skin.g, tmpb->skin.b, 255);
+            SDL_Rect rect = {WINDOW_WIDTH - tmpb->scaled, 0 * 2 * barWidth, tmpb->scaled, barWidth};
+            SDL_RenderFillRect(renderer, &rect);
+    }
+}
+void    drawingB(SDL_Renderer *renderer, node *tmpb, node *b, int barWidth)
+{
+    countBars(b);
+    if (b->next)
+    {
+        tmpb= b->next;
+        int i = 0;
+        while (tmpb && i < numBarsB)
+        {
+            if ( tmpb->progress < 1)
+            {
+                if (tmpb->progress < 0.7)
+                    tmpb->progress += 0.03;
+                if (tmpb->progress >= 0.7)
+                    tmpb->progress += 0.01;
+                if (tmpb->progress >= 1)
+                    tmpb->progress = 1;
+                tmpb->scaled = lerp(tmpb->start_scaled, tmpb->scaled, tmpb->progress);
+            }
+            colorGR(tmpb);
+            SDL_SetRenderDrawColor(renderer, tmpb->skin.r, tmpb->skin.g, tmpb->skin.b, 255);
+            SDL_Rect rect = {WINDOW_WIDTH - tmpb->scaled, i * 2 * barWidth, tmpb->scaled, barWidth};
+            SDL_RenderFillRect(renderer, &rect);
+            i++;
+            tmpb = tmpb->next;
+        }
+    }
+}
+
+double   lerp(double a, double b, double f)
+{
+    return (a + f * (b - a));
+}
+
+void    countBars(node *count)
+{
+    node *tmp;
+    if (count && count->next)
+    {
+        tmp = count->next;
+        while(tmp->next) {
+            if(count->name == 1)
+                numBarsA++;
+            if (count->name == 2 )
+                numBarsB++;
+            tmp = tmp->next;
+        }
+        if(count->name == 1)
+            numBarsA++;
+        if (count->name == 2 )
+            numBarsB++;
+    }
+}
+
+void    caller(int prout)
+{
+    if (prout == 1)
+        exit(1);
+}
+
+double	find_min(node *a)
+{
+    node *tmp;
+    tmp = a->next;
+    min = tmp->value;
+    while (tmp->next)
+    {
+        if (tmp->value < min)
+            min = tmp->value;
+        tmp = tmp->next;
+    }
+    tmp->value < min ? min = tmp->value : 0;
+    return (min);
+}
+
+double	find_max(node *a)
+{
+    if (!a){
+        printf("Error finding max NULL\n");
+        exit(1);
+    }
+    node *tmp;
+    tmp = a->next;
+    max = tmp->value;
+    while (tmp->next)
+    {
+        if (tmp->value > max)
+            max = tmp->value;
+        tmp = tmp->next;
+    }
+    tmp->value > max ? max = tmp->value : 0;
+    return (max);
+}
+
+node*	init_new_node(int name)
+{
+    node *new;
+    new = malloc(sizeof(node));
+    if (!new)
+        return(NULL);
+    new->prev = NULL;
+    new->progress = 0;
+    new->progressi = 0.01;
+    new->next = NULL;
+    new->delay = 0;
+    new->name = name;
+    new->start_scaled = 0;
+    return (new);
+}
+
+void	fill_node_a(int argc, node *a, char **argv, int emergency[])
+{
+    int i;
+    int j;
+
+    i = 0;
+    j = 1;
+    if (argc <= 1)
+    {
+        while ( i < 500)
+        {
+            add_node(a, emergency[i] , 0);
+            i++;
+        }
+    }
+    while ( i < argc-1 && j < argc )
+    {
+        if (ft_atoi(argv[j])== -1)
+        {
+            printf("Error\n");
+            exit(1);
+        }
+        add_node(a, ft_atoi(argv[j]), 0);
+        i++;
+        j++;
+    }
 }
