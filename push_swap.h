@@ -3,7 +3,9 @@
 # include <unistd.h>
 # include <SDL2/SDL.h>
 //# include <SDL2/SDL_mixer.h>
+//# include <SDL2/SDL_ttf.h>
 # include "sdl_mixer/include/SDL2/SDL_mixer.h"
+# include "SDL2_ttf\include\SDL2\SDL_ttf.h"
 # include <stdlib.h>
 # include <stdio.h>
 # include <limits.h>
@@ -20,7 +22,8 @@ extern int attente;
 #define MAX_WINDOW_HEIGHT 1000
 extern double max;
 extern double min;
-
+extern int iwww;
+extern int counter;
 typedef	struct color {
 			int r;
 			int g;
@@ -42,12 +45,15 @@ typedef struct node
 
 }node;
 
+void		reset(node *a, node *b);
+int         sfx(int play, Mix_Chunk *soundfx);
+int         fonter(SDL_Renderer *renderer, TTF_Font *font, char *text, int time);
 void        countBars(node *count);
 double      lerp(double a, double b, double f);
 void        drawing(SDL_Renderer *renderer, node *tmp,node *a, int barWidth);
 void        drawingB(SDL_Renderer *renderer, node *tmpb,node *b, int barWidth);
 double      smoothstep(double x);
-int         sdl_start(node *a,node *b);
+int         sdl_start(node *a,node *b, int argc, char **argv, int emergency[]);
 void        colorGR(node *tmp);
 int			ft_atoi(const char *str);
 int			ft_isspace(char c);
@@ -68,6 +74,8 @@ void        removingB(SDL_Renderer *renderer, node *tmpb, int barWidth);
 void	    fill_node_a(int argc, node *a, char **argv, int emergency[]);
 double	    find_max(node *a);
 double	    find_min(node *a);
+char	    *ft_itoa(int n);
+void        drawCounter(SDL_Renderer *renderer, TTF_Font *font, int counter);
 //fail
 //
 //int			event_listener(SDL_Renderer *renderer, SDL_Window *window, node *a,double min,double max, SDL_Event e);

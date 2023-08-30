@@ -1,5 +1,93 @@
 #include "push_swap.h"
 
+void	reset(node *a, node *b)
+{
+    if (!a->next && !b->next)
+        iwww = 100;
+    if (a)
+    {
+        node *tmp;
+        if (a->next) {
+            tmp = a->next;
+            while (tmp->next && a) {
+                tmp = tmp->next;
+                free(tmp->prev);
+                tmp->prev = NULL;
+            }
+            a->next = NULL;
+            free(tmp);
+            tmp = NULL;
+        }
+    }
+    if (b)
+    {
+        node *tmp;
+        if (b->next) {
+            tmp = b->next;
+            while (b && tmp->next) {
+                tmp = tmp->next;
+                free(tmp->prev);
+                tmp->prev = NULL;
+            }
+            b->next = NULL;
+            free(tmp);
+            tmp = NULL;
+        }
+    }
+	counter = 0;
+}
+static char	*ft_char(char *s, unsigned int number, long int len)
+{
+    while (number > 0)
+    {
+        s[len--] = 48 + (number % 10);
+        number = number / 10;
+    }
+    return (s);
+}
+
+static long int	ft_len(int n)
+{
+    int	len;
+
+    len = 0;
+    if (n <= 0)
+        len = 1;
+    while (n != 0)
+    {
+        len++;
+        n = n / 10;
+    }
+    return (len);
+}
+
+char	*ft_itoa(int n)
+{
+    char				*s;
+    long int			len;
+    unsigned int		number;
+    int					sign;
+
+    sign = 1;
+    len = ft_len(n);
+    s = (char *)malloc(sizeof(char) * (len + 1));
+    if (!(s))
+        return (NULL);
+    s[len--] = '\0';
+    if (n == 0)
+        s[0] = '0';
+    if (n < 0)
+    {
+        sign *= -1;
+        number = n * -1;
+        s[0] = '-';
+    }
+    else
+        number = n;
+    s = ft_char(s, number, len);
+    return (s);
+}
+
 int	ft_isspace(char c)
 {
 	if (c == 32)
@@ -95,6 +183,7 @@ void * add_node(node *a , int value, int head)
         a->next = new_node;
         new_node->next = tmp;
         new_node->prev = a;
+        tmp->prev = new_node;
         attente= 1;
     }
     return(new_node);
@@ -105,9 +194,11 @@ void	swap(node *a)
 	if (!a->next || !a->next->next)
 	{
 		printf("Error\n");
+        iwww=100;
 	}
 	else if (a->next && a->next->next)
 	{
+        counter++;
 		int tmp;
 		tmp = a->next->value;
 		a->next->value = a->next->next->value;
@@ -121,9 +212,11 @@ void	r_rotate(node *reverse)
 	if (!reverse->next || !reverse->next->next || !reverse->next->next->next )
 	{
 		printf("Error\n");
+        iwww=100;
 	}
 	else
 	{
+        counter++;
 		node *current;
 		int first;
 
@@ -145,9 +238,11 @@ void	rotate(node *rotate)
 	if (!rotate->next || !rotate->next->next  || !rotate->next->next->next )
 	{
 		printf("Error\n");
+        iwww=100;
 	}
 	else 
 	{
+        counter++;
 		node *current;
 		int last;
 
@@ -176,6 +271,7 @@ void	remove_node(node *remove)
     if ( remove == NULL || remove->prev != NULL )
     {
         printf("Error\n");
+        iwww=100;
 	}
     else if (!remove->next->next)
     {
@@ -199,11 +295,14 @@ void	push(node *dest, node *src)
 	if (!src->next)
     {
 		printf("Error\n");
+        iwww=100;
+
     }
     if ( src->next)
     {
         add_node(dest, src->next->value, 1);
         remove_node(src);
+        counter++;
     }
 }
 
@@ -271,6 +370,20 @@ void    removingB(SDL_Renderer *renderer, node *tmpb, int barWidth)
             SDL_RenderFillRect(renderer, &rect);
     }
 }
+
+//draw the count of operations on the screen
+
+void	drawCounter(SDL_Renderer *renderer, TTF_Font *font, int counter)
+{
+	SDL_Color color = {255, 255, 255, 255};
+	SDL_Surface *surface = TTF_RenderText_Solid(font, ft_itoa(counter), color);
+	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
+	SDL_Rect rect = {WINDOW_WIDTH - 100, 0, 100, 100};
+	SDL_RenderCopy(renderer, texture, NULL, &rect);
+	SDL_FreeSurface(surface);
+	SDL_DestroyTexture(texture);
+}
+
 void    drawingB(SDL_Renderer *renderer, node *tmpb, node *b, int barWidth)
 {
     countBars(b);
@@ -396,7 +509,7 @@ void	fill_node_a(int argc, node *a, char **argv, int emergency[])
             i++;
         }
     }
-    while ( i < argc-1 && j < argc )
+    while (argc > 1 && i < argc-1 && j < argc )
     {
         if (ft_atoi(argv[j])== -1)
         {
