@@ -41,19 +41,21 @@ double scale_value(double value, double min_value, double max_value, double char
 
 void	scale_bar(node *a)
 {
-    if (a->next)
+    if (a->next )
     {
         node *tmp;
         tmp = a->next;
-        if (tmp && tmp->next) {
-            while (tmp->next) {
+        if (tmp && tmp->next)
+        {
+            while (tmp->next)
+            {
                 tmp->scaled = tmp->value;
                 tmp->scaled = scale_value(tmp->value, min, max, 1, (WINDOW_WIDTH / 2));
                 tmp = tmp->next;
             }
+        }
             tmp->scaled = tmp->value;
             tmp->scaled = scale_value(tmp->value, min, max, 1, (WINDOW_WIDTH / 2));
-        }
     }
 }
 
@@ -62,109 +64,94 @@ double  smoothstep(double x)
     return 3*x*x - 2*x*x*x;
 }
 
-void	window_quit(SDL_Event e, SDL_Renderer *renderer, SDL_Window *window,TTF_Font *font)
+void	window_quit(struct DisplayData *display)
 {
-	if (e.type == SDL_QUIT)
+	if (display->e.type == SDL_QUIT)
 	{
-		SDL_DestroyRenderer(renderer);
-        SDL_DestroyWindow(window);
-        TTF_CloseFont(font);
+		SDL_DestroyRenderer(display->renderer);
+        SDL_DestroyWindow(display->window);
+        TTF_CloseFont(display->font);
 	}
 }
 
-int	event_kb(SDL_Event	e, SDL_Renderer *renderer, SDL_Window *window, node *a, node *b, TTF_Font *font, Mix_Chunk *soundfx, int argc, char **argv, int emergency[])
+int	event_kb(struct DisplayData *display)
 {
     int x;
-	if (e.type == SDL_QUIT)
+	if (display->e.type == SDL_QUIT)
 	{
-	  	window_quit(e, renderer, window, font);
+	  	window_quit(display);
 	    return 0;
 	}
-	if (e.type == SDL_KEYDOWN)
+	if (display->e.type == SDL_KEYDOWN)
 	{
-        switch(e.key.keysym.sym)
+        switch(display->e.key.keysym.sym)
 		{
             case SDLK_w:
                  iwww=100;
-                 sfx(3, soundfx);
+                 sfx(3, display->soundfx);
                 break;
             case SDLK_5:
-                sfx(3, soundfx);
+                sfx(3, display->soundfx);
                 son--;
             case SDLK_t:
                 son++;
                 break;
             case SDLK_ESCAPE:
-                window_quit(e, renderer, window, font);
+                window_quit(display);
                 return 0;
 	        case SDLK_r:
-                rotate(a);
-                scale_bar(a);
+                rotate(display->a, display);
                 break;
 	        case SDLK_s:
-                swap(b);
-	            scale_bar(b);
+                swap(display->b,display  );
                 break;
 	        case SDLK_e:
-                r_rotate(a);
-	            scale_bar(a);
+                r_rotate(display->a, display);
                 break;
-	             // scale_bar(a);
 	        case SDLK_p:
-	            push(b, a);
-	            scale_bar(b);
+	            //push(display->b, display->a);
+                //update_display(display);
+                sort(display->a, display->b, display, average(display->a)*1/4);
                 break;
 	        case SDLK_l:
-	            push(a, b);
-	            scale_bar(a);
+	            push(display->a, display->b, display);
+                //update_display(display);
                 break;
 	        case SDLK_d:
                 x = 1000000;
                 while (x >0)
                 {
                     x--;
-                    rotate(a);
+                    rotate(display->a, display);
                 }
                  break;
 			case SDLK_a:
-				reset(a, b);
+				reset(display);
                 time = 100;
-                fill_node_a(argc, a, argv, emergency);
+                fill_node_a(display);
+                //update_display(display);
 				break;
 	        }
 	}	
 	return 1;
 }
 
-int fonter(SDL_Renderer *renderer, TTF_Font *font, char *text, int time)
+int fonter(struct DisplayData *display, char *text, int time)
 {
     if (time > 0)
     {
         SDL_Color textColor = { 255, 0, 0, 255 };
-        SDL_Surface *textSurface = TTF_RenderText_Blended(font, text, textColor);
-        SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+        SDL_Surface *textSurface = TTF_RenderText_Blended(display->font, text, textColor);
+        SDL_Texture *textTexture = SDL_CreateTextureFromSurface(display->renderer, textSurface);
         SDL_Rect textLocation = {250, 400 , textSurface->w, textSurface->h};
         //background rectangle for the text;
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-        SDL_RenderFillRect(renderer, &textLocation);
-        SDL_RenderCopy(renderer, textTexture, NULL, &textLocation);
+        SDL_SetRenderDrawColor(display->renderer, 0, 0, 0, 255);
+        SDL_RenderFillRect(display->renderer, &textLocation);
+        SDL_RenderCopy(display->renderer, textTexture, NULL, &textLocation);
         SDL_DestroyTexture(textTexture);
         SDL_FreeSurface(textSurface);
     }
 
-    if (iwww>0 && time != -1)
-    {
-        SDL_Color textColor = { 255, 0, 0, 255 };
-        SDL_Surface *textSurface = TTF_RenderText_Blended(font, text, textColor);
-        SDL_Texture *textTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
-        SDL_Rect textLocation = {250, 400 , textSurface->w, textSurface->h};
-		//background rectangle for the text;
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-		SDL_RenderFillRect(renderer, &textLocation);
-        SDL_RenderCopy(renderer, textTexture, NULL, &textLocation);
-        SDL_DestroyTexture(textTexture);
-        SDL_FreeSurface(textSurface);
-    }
     else {
         iwww = 0;
     }
@@ -176,62 +163,115 @@ int sfx(int play, Mix_Chunk *soundfx)
     Mix_PlayChannel(-1, soundfx, 0);
     return(1);
 }
-
-int	sdl_start(node *a,node *b, int argc, char **argv, int emergency[])
+int    updater(struct DisplayData *display)
 {
-    Mix_Chunk *soundfx = Mix_LoadWAV("media/Pop.mp3");
+    int i = 1;
+    while (i > 0)
+    {
+        SDL_SetRenderDrawColor(display->renderer, 0, 0, 0, 255); // Black background
+        SDL_RenderClear(display->renderer);
+//        if (attente == -1)
+//            Mix_PlayChannel(-1, soundfx,0);
+//        if (attente == -1)
+//            Mix_PlayChannel(-1, soundEffect, 0);
+//        attente = 0;
+        scale_bar(display->a);
+        scale_bar(display->b);
+        drawing(display);
+        drawingB(display);
+        drawCounter(display, counter);
+        //fonter(display, "ERROR, illegal move", 0);
+        SDL_RenderPresent(display->renderer);
+        //iwww--;
+        i--;
+    }
+    return(1);
+}
+
+int    update_display(struct DisplayData *display)
+{
+    while(1) {
+        SDL_SetRenderDrawColor(display->renderer, 0, 0, 0, 255); // Black background
+        SDL_RenderClear(display->renderer);
+        {
+            while (SDL_PollEvent(&display->e)) {
+                int error;
+                error = event_kb(display);
+                if (error == 0)
+                    return (0);
+            }
+        }
+//        if (attente == -1)
+//            Mix_PlayChannel(-1, soundfx,0);
+//        if (attente == -1)
+//            Mix_PlayChannel(-1, soundEffect, 0);
+//        attente = 0;
+        scale_bar(display->a);
+        scale_bar(display->b);
+        drawing(display);
+        drawingB(display);
+        drawCounter(display, counter);
+ //       fonter(display, "ERROR, illegal move", 0);
+        SDL_RenderPresent(display->renderer);
+        iwww--;
+    }
+}
+
+int	sdl_start(struct DisplayData *display)
+{
+    display->max = find_max(display->a);
+    display->min = find_min(display->a);
+    display->soundfx = Mix_LoadWAV("media/Pop.mp3");
     SDL_Init(SDL_INIT_VIDEO);
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
         printf("SDL_Init Error: %s", SDL_GetError());
         return (0);
     }
-    countBars(a);
-    countBars(b);
-    int barWidth = MAX_WINDOW_HEIGHT/(numBarsA*2);
+    countBars(display->a);
+    countBars(display->b);
+    display->barWidth = MAX_WINDOW_HEIGHT/(numBarsA*2);
     int window_height = 1000;
-    SDL_Window *window = SDL_CreateWindow("Bar Graph", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, window_height, 0);
-    SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    display->window = SDL_CreateWindow("Bar Graph", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, window_height, 0);
+    display->renderer = SDL_CreateRenderer(display->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
     TTF_Init();
     if (TTF_Init() == -1)
         return 0;
-    TTF_Font *font = TTF_OpenFont ("media\\fonts\\ARLRDBD.ttf", 64);
-    if (font == NULL)
+    display->font = TTF_OpenFont ("media\\fonts\\ARLRDBD.ttf", 64);
+    if (display->font == NULL)
         return 0;
     color colora;
-    a->skin = colora;
+    display->a->skin = colora;
     color colorb;
-    b->skin = colorb;
-
-    SDL_Event e;
-    node *tmp;
-    node *tmpb;
-
-    while(1) {
-        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black background
-        SDL_RenderClear(renderer);
-		while (SDL_PollEvent(&e))
-		{
-            int error;
-            error = event_kb(e, renderer, window, a, b, font, soundfx, argc, argv, emergency);
-            if (error == 0)
-                return(0);
-		}
+    display->b->skin = colorb;
+    int error;
+    error = update_display(display);
+    if (error == 0)
+        return(0);
+//    while(1) {
+//        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black background
+//        SDL_RenderClear(renderer);
+//		while (SDL_PollEvent(&e))
+//		{
+//            int error;
+//            error = event_kb(e, renderer, window, a, b, font, soundfx, argc, argv, emergency);
+//            if (error == 0)
+//                return(0);
+//		}
 //        if (attente == -1)
 //            Mix_PlayChannel(-1, soundfx,0);
 //        if (attente == -1)
 //            Mix_PlayChannel(-1, soundEffect, 0);
 //        attente = 0;
-        scale_bar(a);
-        scale_bar(b);
-        drawingB(renderer, tmpb, b, barWidth);
-        drawing(renderer, tmp, a, barWidth);
-        drawCounter(renderer, font, counter);
-        fonter(renderer, font, "ERROR, illegal move", 0);
-        time = -1;
-        SDL_RenderPresent(renderer);
-        iwww--;
-        time--;
-    }
-
+//        scale_bar(a);
+//        scale_bar(b);
+//        drawingB(renderer, tmpb, b, barWidth);
+//        drawing(renderer, tmp, a, barWidth);
+//        drawCounter(renderer, font, counter);
+//        fonter(renderer, font, "ERROR, illegal move", 0);
+//        time = -1;
+//        SDL_RenderPresent(renderer);
+//        iwww--;
+//        time--;
+//    }
 }

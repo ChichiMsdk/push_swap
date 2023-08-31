@@ -1,93 +1,5 @@
 #include "push_swap.h"
 
-void	reset(node *a, node *b)
-{
-    if (!a->next && !b->next)
-        iwww = 100;
-    if (a)
-    {
-        node *tmp;
-        if (a->next) {
-            tmp = a->next;
-            while (tmp->next && a) {
-                tmp = tmp->next;
-                free(tmp->prev);
-                tmp->prev = NULL;
-            }
-            a->next = NULL;
-            free(tmp);
-            tmp = NULL;
-        }
-    }
-    if (b)
-    {
-        node *tmp;
-        if (b->next) {
-            tmp = b->next;
-            while (b && tmp->next) {
-                tmp = tmp->next;
-                free(tmp->prev);
-                tmp->prev = NULL;
-            }
-            b->next = NULL;
-            free(tmp);
-            tmp = NULL;
-        }
-    }
-	counter = 0;
-}
-static char	*ft_char(char *s, unsigned int number, long int len)
-{
-    while (number > 0)
-    {
-        s[len--] = 48 + (number % 10);
-        number = number / 10;
-    }
-    return (s);
-}
-
-static long int	ft_len(int n)
-{
-    int	len;
-
-    len = 0;
-    if (n <= 0)
-        len = 1;
-    while (n != 0)
-    {
-        len++;
-        n = n / 10;
-    }
-    return (len);
-}
-
-char	*ft_itoa(int n)
-{
-    char				*s;
-    long int			len;
-    unsigned int		number;
-    int					sign;
-
-    sign = 1;
-    len = ft_len(n);
-    s = (char *)malloc(sizeof(char) * (len + 1));
-    if (!(s))
-        return (NULL);
-    s[len--] = '\0';
-    if (n == 0)
-        s[0] = '0';
-    if (n < 0)
-    {
-        sign *= -1;
-        number = n * -1;
-        s[0] = '-';
-    }
-    else
-        number = n;
-    s = ft_char(s, number, len);
-    return (s);
-}
-
 int	ft_isspace(char c)
 {
 	if (c == 32)
@@ -130,22 +42,131 @@ int	ft_atoi(const char *str)
 	return ((int)result * sign);
 }
 
-void    colorGR(node *tmp)
+int    sort(node *a, node *b, struct DisplayData *display, int pivot) {
+    int secure = 0;
+    static int pass;
+    int count;
+    count = 0;
+    node *tmp;
+    node *tmpb;
+    if (b)
+        tmpb = b;
+    if (a)
+        tmp = a;
+    count = numBar(tmp) == -1;
+    if (!display->a->next || (!a->next && b->next)|| pivot <=0 ) {
+        if (b->next)
+            sortb(b, a, display, average(b));
+        return (1);
+    }
+    if (tmp && tmp->next->next )
+    {
+        if (tmp->next->value > tmp->next->next->value)
+            swap(a, display);
+    }
+    while (  secure <= count && tmp->next)
+    {
+        if (tmp->next->value <= pivot)
+        {
+            push(tmpb, tmp, display);
+            count = numBar(tmp);
+        }
+        else
+        {
+            if (tmp && tmp->next && tmp->next->next && tmp->next->next->next )
+                rotate(a, display);
+            else if (count== 2 && tmp->next && tmp->next->next)
+            {
+                if (tmp->next->value > tmp->next->next->value)
+                    swap(tmp, display);
+                if (tmp->next->value)
+                    push(tmpb, tmp, display);
+            }
+            secure++;
+        }
+    }
+    pass++;
+    if (pass < 2 )
+        pass = 2;
+    if (pass > 4)
+        pass = 4;
+    sort(tmp, tmpb, display, average(tmp)*pass/4);
+}
+
+int sortb(node *a, node *b, struct DisplayData *display, int pivot) {
+    int secure = 0;
+    static int pass;
+    int count;
+    count = 0;
+    node *tmp;
+    node *tmpb;
+    if (b)
+        tmpb = b;
+    if (a)
+        tmp = a;
+    count = numBar(tmp);
+    if (!display->b->next || !a->next || pivot <= 0)
+    {
+            sort(b, a, display, average(a));
+            return (1);
+    }
+
+//    if (pivot % 2 == 0)
+//        pivot /= 2;
+//    else {
+//        pivot /= 2;
+//        pivot++;
+//    }
+    if (tmp && tmp->next->next )
+    {
+        if (tmp->next->value > tmp->next->next->value)
+            swap(a, display);
+    }
+    while (  secure <= count && tmp->next)
+    {
+        if (tmp->next->value >= pivot)
+        {
+            push(tmpb, tmp, display);
+            count = numBar(tmp);
+        }
+        else
+        {
+            if (tmp && tmp->next && tmp->next->next && tmp->next->next->next )
+                r_rotate(a, display);
+            else if (count== 2 && tmp->next && tmp->next->next)
+            {
+                if (tmp->next->value > tmp->next->next->value)
+                    swap(tmp, display);
+                if (tmp->next->value)
+                    push(tmpb, tmp, display);
+            }
+            secure++;
+        }
+    }
+    pass++;
+    if (pass < 2 )
+        pass = 2;
+    if (pass > 4)
+        pass = 4;
+    sort(tmp, tmpb, display, average(tmp));
+}
+
+int numBar(node *a)
 {
-    double t = (double)(tmp->value)/(max-min);
-    if (t <= 0.5 )
+    if ( a->next)
     {
-        tmp->skin.r = 255;
+        node *tmp;
+        tmp = a->next;
+        int count;
+        count = 1;
+        while (tmp && tmp->next)
+        {
+            tmp = tmp->next;
+            count++;
+        }
+        return(count);
     }
-    else
-    {
-        tmp->skin.r = 255*(1.0 - smoothstep(2.0*(t-0.5)));
-    }
-    if (t<=0.5)
-        tmp->skin.g = 255 * smoothstep(2.0*t);
-    else
-        tmp->skin.g= 255;
-    tmp->skin.b = 0;
+    return(-1);
 }
 
 void * add_node(node *a , int value, int head)
@@ -189,7 +210,7 @@ void * add_node(node *a , int value, int head)
     return(new_node);
 }
 
-void	swap(node *a)
+void	swap(node *a,struct DisplayData *display)
 {
 	if (!a->next || !a->next->next)
 	{
@@ -207,7 +228,7 @@ void	swap(node *a)
 	}
 }
 
-void	r_rotate(node *reverse)
+void	r_rotate(node *reverse, struct DisplayData *display)
 {
 	if (!reverse->next || !reverse->next->next || !reverse->next->next->next )
 	{
@@ -233,7 +254,7 @@ void	r_rotate(node *reverse)
 	}
 }
 
-void	rotate(node *rotate)
+void	rotate(node *rotate, struct DisplayData *display)
 {	
 	if (!rotate->next || !rotate->next->next  || !rotate->next->next->next )
 	{
@@ -256,6 +277,7 @@ void	rotate(node *rotate)
 		last = current->value;
 		while (current->prev != NULL)
 		{
+           // updater(display);
             current->progressi = 0.01;
 			current->value = current->prev->value;
 			current = current->prev;
@@ -263,6 +285,7 @@ void	rotate(node *rotate)
         current->progressi = 0.01;
 		current->value = last;
         attente=2;
+        updater(display);
 		}
 }
 
@@ -290,159 +313,44 @@ void	remove_node(node *remove)
 	}
 }
 
-void	push(node *dest, node *src)
+void	push(node *dest, node *src, struct DisplayData *display)
 {
 	if (!src->next)
     {
 		printf("Error\n");
         iwww=100;
-
     }
     if ( src->next)
     {
         add_node(dest, src->next->value, 1);
         remove_node(src);
         counter++;
+        int error;
+        error = 1;
+        error = updater(display);
+        if (error ==0)
+            exit(1);
     }
 }
 
-void	s_swap(node *a, node *b)
+void	s_swap(node *a, node *b, struct DisplayData *display)
 {
-	swap(a);
-	swap(b);
+	swap(a, display);
+	swap(b, display);
 }
 
-void	s_rot(node *a, node *b)
+void	s_rot(node *a, node *b,  struct DisplayData *display)
 {
-	rotate(a);
-	rotate(b);
+	rotate(a, display);
+	rotate(b,display );
 }
 
-void	s_rev(node *a, node *b)
+void	s_rev(node *a, node *b, struct DisplayData *display)
 {
-	r_rotate(a);
-	r_rotate(b);
+	r_rotate(a, display);
+	r_rotate(b, display);
 }
 
-void    drawing(SDL_Renderer *renderer, node *tmp,node *a, int barWidth)
-{
-    if (a->next) {
-        tmp = a->next;
-        int i = 0;
-        while (i < numBarsA && tmp) {
-            if ( tmp->progress < 1)
-            {
-                if (tmp->progress < 0.7)
-                    tmp->progress += 0.03;
-                if (tmp->progress >= 0.7)
-                    tmp->progress += 0.01;
-                if (tmp->progress >= 1)
-                    tmp->progress = 1;
-                tmp->scaled = lerp(tmp->start_scaled, tmp->scaled, tmp->progress);
-            }
-            colorGR(tmp);
-            SDL_SetRenderDrawColor(renderer, tmp->skin.r, tmp->skin.g, tmp->skin.b, 255);
-            SDL_Rect rect = {0, i * 2 * barWidth, tmp->scaled, barWidth};
-            SDL_RenderFillRect(renderer, &rect);
-            i++;
-            tmp = tmp->next;
-        }
-    }
-}
-
-void    removingB(SDL_Renderer *renderer, node *tmpb, int barWidth)
-{
-        int i = 10;
-        while (tmpb->progress>0)
-        {
-
-            if (tmpb->progress > 0.7)
-                tmpb->progress -= 0.03;
-            if (tmpb->progress <= 0.7)
-                tmpb->progress -= 0.01;
-            if (tmpb->progress <= 0)
-                tmpb->progress = 0;
-            tmpb->scaled = lerp(0, tmpb->scaled, tmpb->progress);
-
-            colorGR(tmpb);
-            SDL_SetRenderDrawColor(renderer, tmpb->skin.r, tmpb->skin.g, tmpb->skin.b, 255);
-            SDL_Rect rect = {WINDOW_WIDTH - tmpb->scaled, 0 * 2 * barWidth, tmpb->scaled, barWidth};
-            SDL_RenderFillRect(renderer, &rect);
-    }
-}
-
-//draw the count of operations on the screen
-
-void	drawCounter(SDL_Renderer *renderer, TTF_Font *font, int counter)
-{
-	SDL_Color color = {255, 255, 255, 255};
-	SDL_Surface *surface = TTF_RenderText_Solid(font, ft_itoa(counter), color);
-	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_Rect rect = {WINDOW_WIDTH - 100, 0, 100, 100};
-	SDL_RenderCopy(renderer, texture, NULL, &rect);
-	SDL_FreeSurface(surface);
-	SDL_DestroyTexture(texture);
-}
-
-void    drawingB(SDL_Renderer *renderer, node *tmpb, node *b, int barWidth)
-{
-    countBars(b);
-    if (b->next)
-    {
-        tmpb= b->next;
-        int i = 0;
-        while (tmpb && i < numBarsB)
-        {
-            if ( tmpb->progress < 1)
-            {
-                if (tmpb->progress < 0.7)
-                    tmpb->progress += 0.03;
-                if (tmpb->progress >= 0.7)
-                    tmpb->progress += 0.01;
-                if (tmpb->progress >= 1)
-                    tmpb->progress = 1;
-                tmpb->scaled = lerp(tmpb->start_scaled, tmpb->scaled, tmpb->progress);
-            }
-            colorGR(tmpb);
-            SDL_SetRenderDrawColor(renderer, tmpb->skin.r, tmpb->skin.g, tmpb->skin.b, 255);
-            SDL_Rect rect = {WINDOW_WIDTH - tmpb->scaled, i * 2 * barWidth, tmpb->scaled, barWidth};
-            SDL_RenderFillRect(renderer, &rect);
-            i++;
-            tmpb = tmpb->next;
-        }
-    }
-}
-
-double   lerp(double a, double b, double f)
-{
-    return (a + f * (b - a));
-}
-
-void    countBars(node *count)
-{
-    node *tmp;
-    if (count && count->next)
-    {
-        tmp = count->next;
-        while(tmp->next) {
-            if(count->name == 1)
-                numBarsA++;
-            if (count->name == 2 )
-                numBarsB++;
-            tmp = tmp->next;
-        }
-        if(count->name == 1)
-            numBarsA++;
-        if (count->name == 2 )
-            numBarsB++;
-    }
-}
-
-void    caller(int prout)
-{
-    if (prout == 1)
-        exit(1);
-}
 
 double	find_min(node *a)
 {
@@ -494,29 +402,29 @@ node*	init_new_node(int name)
     return (new);
 }
 
-void	fill_node_a(int argc, node *a, char **argv, int emergency[])
+void	fill_node_a(struct DisplayData *display)
 {
     int i;
     int j;
 
     i = 0;
     j = 1;
-    if (argc <= 1)
+    if (display->argc <= 1)
     {
         while ( i < 500)
         {
-            add_node(a, emergency[i] , 0);
+            add_node(display->a, display->emergency[i] , 0);
             i++;
         }
     }
-    while (argc > 1 && i < argc-1 && j < argc )
+    while (display->argc > 1 && i < display->argc-1 && j < display->argc )
     {
-        if (ft_atoi(argv[j])== -1)
+        if (ft_atoi(display->argv[j])== -1)
         {
             printf("Error\n");
             exit(1);
         }
-        add_node(a, ft_atoi(argv[j]), 0);
+        add_node(display->a, ft_atoi(display->argv[j]), 0);
         i++;
         j++;
     }
