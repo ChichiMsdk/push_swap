@@ -42,115 +42,6 @@ int	ft_atoi(const char *str)
 	return ((int)result * sign);
 }
 
-int    sort(node *a, node *b, struct DisplayData *display, int pivot) {
-    int secure = 0;
-    static int pass;
-    int count;
-    count = 0;
-    node *tmp;
-    node *tmpb;
-    if (b)
-        tmpb = b;
-    if (a)
-        tmp = a;
-    count = numBar(tmp) == -1;
-    if (!display->a->next || (!a->next && b->next)|| pivot <=0 ) {
-        if (b->next)
-            sortb(b, a, display, average(b));
-        return (1);
-    }
-    if (tmp && tmp->next->next )
-    {
-        if (tmp->next->value > tmp->next->next->value)
-            swap(a, display);
-    }
-    while (  secure <= count && tmp->next)
-    {
-        if (tmp->next->value <= pivot)
-        {
-            push(tmpb, tmp, display);
-            count = numBar(tmp);
-        }
-        else
-        {
-            if (tmp && tmp->next && tmp->next->next && tmp->next->next->next )
-                rotate(a, display);
-            else if (count== 2 && tmp->next && tmp->next->next)
-            {
-                if (tmp->next->value > tmp->next->next->value)
-                    swap(tmp, display);
-                if (tmp->next->value)
-                    push(tmpb, tmp, display);
-            }
-            secure++;
-        }
-    }
-    pass++;
-    if (pass < 2 )
-        pass = 2;
-    if (pass > 4)
-        pass = 4;
-    sort(tmp, tmpb, display, average(tmp)*pass/4);
-}
-
-int sortb(node *a, node *b, struct DisplayData *display, int pivot) {
-    int secure = 0;
-    static int pass;
-    int count;
-    count = 0;
-    node *tmp;
-    node *tmpb;
-    if (b)
-        tmpb = b;
-    if (a)
-        tmp = a;
-    count = numBar(tmp);
-    if (!display->b->next || !a->next || pivot <= 0)
-    {
-            sort(b, a, display, average(a));
-            return (1);
-    }
-
-//    if (pivot % 2 == 0)
-//        pivot /= 2;
-//    else {
-//        pivot /= 2;
-//        pivot++;
-//    }
-    if (tmp && tmp->next->next )
-    {
-        if (tmp->next->value > tmp->next->next->value)
-            swap(a, display);
-    }
-    while (  secure <= count && tmp->next)
-    {
-        if (tmp->next->value >= pivot)
-        {
-            push(tmpb, tmp, display);
-            count = numBar(tmp);
-        }
-        else
-        {
-            if (tmp && tmp->next && tmp->next->next && tmp->next->next->next )
-                r_rotate(a, display);
-            else if (count== 2 && tmp->next && tmp->next->next)
-            {
-                if (tmp->next->value > tmp->next->next->value)
-                    swap(tmp, display);
-                if (tmp->next->value)
-                    push(tmpb, tmp, display);
-            }
-            secure++;
-        }
-    }
-    pass++;
-    if (pass < 2 )
-        pass = 2;
-    if (pass > 4)
-        pass = 4;
-    sort(tmp, tmpb, display, average(tmp));
-}
-
 int numBar(node *a)
 {
     if ( a->next)
@@ -354,6 +245,10 @@ void	s_rev(node *a, node *b, struct DisplayData *display)
 
 double	find_min(node *a)
 {
+	if (!a){
+		printf("Error finding min\n");
+		exit(1);
+	}
     node *tmp;
     tmp = a->next;
     min = tmp->value;
@@ -370,7 +265,7 @@ double	find_min(node *a)
 double	find_max(node *a)
 {
     if (!a){
-        printf("Error finding max NULL\n");
+        printf("Error finding max\n");
         exit(1);
     }
     node *tmp;

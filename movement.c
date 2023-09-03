@@ -202,11 +202,6 @@ int    update_display(struct DisplayData *display)
                     return (0);
             }
         }
-//        if (attente == -1)
-//            Mix_PlayChannel(-1, soundfx,0);
-//        if (attente == -1)
-//            Mix_PlayChannel(-1, soundEffect, 0);
-//        attente = 0;
         scale_bar(display->a);
         scale_bar(display->b);
         drawing(display);
@@ -250,31 +245,5 @@ int	sdl_start(struct DisplayData *display)
     error = update_display(display);
     if (error == 0)
         return(0);
-//    while(1) {
-//        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Black background
-//        SDL_RenderClear(renderer);
-//		while (SDL_PollEvent(&e))
-//		{
-//            int error;
-//            error = event_kb(e, renderer, window, a, b, font, soundfx, argc, argv, emergency);
-//            if (error == 0)
-//                return(0);
-//		}
-//        if (attente == -1)
-//            Mix_PlayChannel(-1, soundfx,0);
-//        if (attente == -1)
-//            Mix_PlayChannel(-1, soundEffect, 0);
-//        attente = 0;
-//        scale_bar(a);
-//        scale_bar(b);
-//        drawingB(renderer, tmpb, b, barWidth);
-//        drawing(renderer, tmp, a, barWidth);
-//        drawCounter(renderer, font, counter);
-//        fonter(renderer, font, "ERROR, illegal move", 0);
-//        time = -1;
-//        SDL_RenderPresent(renderer);
-//        iwww--;
-//        time--;
-//    }
-    return (-1);
+   return (-1);
 }
