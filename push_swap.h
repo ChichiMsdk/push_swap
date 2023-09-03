@@ -51,6 +51,7 @@ typedef struct DisplayData {
 
 typedef struct node 
 {
+    int             index; //used only to find petit and grand, no value otherwise (undefined)
 	double			scaled;
 	double			delay;
 	double			start_scaled;
@@ -64,13 +65,15 @@ typedef struct node
 
 }node;
 
+
+int         petit(node *a);
+int         sort(struct DisplayData *display);
 int         duplicate(node *a);
 int         sortb(node *a, node *b, struct DisplayData *display, int pivot);
 int         numBar(node *a);
 int         average(node *a);
 int         updater(struct DisplayData *display);
 int         update_display(struct DisplayData *display);
-int         sort(node *a, node *b, struct DisplayData *display, int pivot);
 void		reset(struct DisplayData *display);
 int         sfx(int play, Mix_Chunk *soundfx);
 int         fonter(struct DisplayData *display, char *text, int time);

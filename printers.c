@@ -255,6 +255,7 @@ void    drawingB(struct DisplayData *display)
             SDL_Rect rect = {WINDOW_WIDTH - tmpb->scaled, i * 2 * display->barWidth, tmpb->scaled, display->barWidth};
             SDL_RenderFillRect(display->renderer, &rect);
             i++;
+            int s = 0;
             tmpb = tmpb->next;
         }
     }

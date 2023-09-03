@@ -116,6 +116,7 @@ void	swap(node *a,struct DisplayData *display)
 		a->next->value = a->next->next->value;
 		a->next->next->value = tmp;
         attente=2;
+        //updater(display);
 	}
 }
 
@@ -142,6 +143,7 @@ void	r_rotate(node *reverse, struct DisplayData *display)
 		}
 		current->value = first;
         current->progressi = 0.01;
+        //updater(display);
 	}
 }
 
@@ -168,7 +170,6 @@ void	rotate(node *rotate, struct DisplayData *display)
 		last = current->value;
 		while (current->prev != NULL)
 		{
-           // updater(display);
             current->progressi = 0.01;
 			current->value = current->prev->value;
 			current = current->prev;
@@ -176,7 +177,7 @@ void	rotate(node *rotate, struct DisplayData *display)
         current->progressi = 0.01;
 		current->value = last;
         attente=2;
-        updater(display);
+        //updater(display);
 		}
 }
 

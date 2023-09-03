@@ -76,7 +76,6 @@ void	window_quit(struct DisplayData *display)
 
 int	event_kb(struct DisplayData *display)
 {
-    int x;
 	if (display->e.type == SDL_QUIT)
 	{
 	  	window_quit(display);
@@ -86,50 +85,58 @@ int	event_kb(struct DisplayData *display)
 	{
         switch(display->e.key.keysym.sym)
 		{
+            case SDLK_s:
+                 //iwww=100;
+                 //sfx(3, display->soundfx);
+                 swap(display->a, display);
+                break;
             case SDLK_w:
-                 iwww=100;
-                 sfx(3, display->soundfx);
+                rotate(display->a, display);
+                break;
+            case SDLK_e:
+                r_rotate(display->a, display);
+                break;
+            case SDLK_r:
+                push(display->b,display->a, display);
+                //updater(display);
                 break;
             case SDLK_5:
                 sfx(3, display->soundfx);
                 son--;
             case SDLK_t:
-                son++;
+                //son++;
+                sort(display);
+                updater(display);
+                break;
+            case SDLK_o:
+                rotate(display->b, display);
+                break;
+            case SDLK_i:
+                r_rotate(display->b, display);
+                break;
+            case SDLK_u:
+                push(display->a, display->b,display);
+                //updater(display);
+                break;
+            case SDLK_l:
+                swap(display->b, display);
                 break;
             case SDLK_ESCAPE:
                 window_quit(display);
                 return 0;
-	        case SDLK_r:
-                rotate(display->a, display);
-                break;
-	        case SDLK_s:
-                swap(display->b,display  );
-                break;
-	        case SDLK_e:
-                r_rotate(display->a, display);
-                break;
-	        case SDLK_p:
-	           	push(display->b, display->a, display);
-                //update_display(display);
-               // sort(display->a, display->b, display, average(display->a)*1/4);
-                break;
-	        case SDLK_l:
-	            push(display->a, display->b, display);
-                //update_display(display);
-                break;
-	        case SDLK_d:
-                x = 1000;
-                while (x >0)
-                {
-                    x--;
-                    rotate(display->a, display);
-                }
-                 break;
+//	        case SDLK_d:
+//                x = 1000;
+//                while (x >0)
+//                {
+//                    x--;
+//                    rotate(display->a, display);
+//                }
+//                 break;
 			case SDLK_a:
 				reset(display);
                 time = 100;
                 fill_node_a(display);
-                //update_display(display);
+                update_display(display);
 				break;
 	        }
 	}	
@@ -229,8 +236,8 @@ int	sdl_start(struct DisplayData *display)
     display->barWidth = MAX_WINDOW_HEIGHT/(numBarsA*2);
     int window_height = 1000;
     display->window = SDL_CreateWindow("Bar Graph", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WINDOW_WIDTH, window_height, 0);
-    display->renderer = SDL_CreateRenderer(display->window, -1, SDL_RENDERER_ACCELERATED  );
-    ///display->renderer = SDL_CreateRenderer(display->window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+//    display->renderer = SDL_CreateRenderer(display->window, -1, SDL_RENDERER_ACCELERATED  );
+    display->renderer = SDL_CreateRenderer(display->window, -1, SDL_RENDERER_ACCELERATED| SDL_RENDERER_PRESENTVSYNC);
     TTF_Init();
     if (TTF_Init() == -1)
         return 0;
