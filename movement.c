@@ -118,7 +118,7 @@ int	event_kb(struct DisplayData *display)
                 //update_display(display);
                 break;
 	        case SDLK_d:
-                x = 1000000;
+                x = 1000;
                 while (x >0)
                 {
                     x--;

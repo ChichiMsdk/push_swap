@@ -61,7 +61,13 @@ int	main(int argc, char **argv)
     if (!display->b)
         return(-1);
 	fill_node_a(display);
-
+    int dup;
+    dup = duplicate(display->a);
+    if (dup!= 0)
+    {
+        printf("Duplicate found: %d\n", dup);
+        return(1);
+    }
 	min = find_min(display->a);
 	max = find_max(display->a);
 

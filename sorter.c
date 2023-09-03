@@ -12,6 +12,7 @@ int	duplicate(node *a)
 	node *minitmp;
 	tmp = a->next;
 	int compare;
+    int goupix;
 	if (tmp == NULL)
 		return (-1);
 	while (tmp->next != NULL)
@@ -20,16 +21,15 @@ int	duplicate(node *a)
 		if (tmp->next)
 		{
 			minitmp = tmp->next;
-			while ( minitmp -> next )
+			while ( minitmp )
 			{
-				if (compare == minitmp->value)
-					return (1);
+                goupix = minitmp->value;
+				if (compare == goupix)
+					return (compare);
 				minitmp = minitmp->next;
 			}
 		}
-		tmp = tmp->next;
+	    	tmp = tmp->next;
 	}
-	if (compare == tmp->value)
-		return(1);
 	return(0);
 }

@@ -2,11 +2,11 @@
 # define PUSH_SWAP_H
 # include <unistd.h>
 # include <SDL2/SDL.h>
-//# include "x86_64-w64-mingw32/include/SDL2/SDL.h"
-# include <SDL2/SDL_mixer.h>
-# include <SDL2/SDL_ttf.h>
-//# include "sdl_mixer/include/SDL2/SDL_mixer.h"
-//# include "SDL2_ttf\include\SDL2\SDL_ttf.h"
+# include "x86_64-w64-mingw32/include/SDL2/SDL.h"
+//# include <SDL2/SDL_mixer.h>
+//# include <SDL2/SDL_ttf.h>
+# include "sdl_mixer/include/SDL2/SDL_mixer.h"
+# include "SDL2_ttf\include\SDL2\SDL_ttf.h"
 # include <stdlib.h>
 # include <stdio.h>
 # include <limits.h>
@@ -64,7 +64,8 @@ typedef struct node
 
 }node;
 
-int sortb(node *a, node *b, struct DisplayData *display, int pivot);
+int         duplicate(node *a);
+int         sortb(node *a, node *b, struct DisplayData *display, int pivot);
 int         numBar(node *a);
 int         average(node *a);
 int         updater(struct DisplayData *display);

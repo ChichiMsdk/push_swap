@@ -31,6 +31,7 @@ add_executable(push_swap
         push_swap.h
         push_swap_utils.c
         movement.c
+        sorter.c
 )
 target_link_libraries(push_swap ${SDL2_LIBRARIES})
 target_link_libraries(push_swap ${SDL2_MIXER_LIBRARIES})
