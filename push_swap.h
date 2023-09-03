@@ -1,12 +1,12 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 # include <unistd.h>
-//# include <SDL2/SDL.h>
-# include "x86_64-w64-mingw32/include/SDL2/SDL.h"
-//# include <SDL2/SDL_mixer.h>
-//# include <SDL2/SDL_ttf.h>
-# include "sdl_mixer/include/SDL2/SDL_mixer.h"
-# include "SDL2_ttf\include\SDL2\SDL_ttf.h"
+# include <SDL2/SDL.h>
+//# include "x86_64-w64-mingw32/include/SDL2/SDL.h"
+# include <SDL2/SDL_mixer.h>
+# include <SDL2/SDL_ttf.h>
+//# include "sdl_mixer/include/SDL2/SDL_mixer.h"
+//# include "SDL2_ttf\include\SDL2\SDL_ttf.h"
 # include <stdlib.h>
 # include <stdio.h>
 # include <limits.h>

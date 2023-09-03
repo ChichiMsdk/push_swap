@@ -239,7 +239,7 @@ int	sdl_start(struct DisplayData *display)
     TTF_Init();
     if (TTF_Init() == -1)
         return 0;
-    display->font = TTF_OpenFont ("media/fonts/ARLRDBD.ttf", 64);
+    display->font = TTF_OpenFont ("media/fonts/JetBrainsMono.ttf", 64);
     if (display->font == NULL)
         return 0;
     color colora;
