@@ -13,6 +13,7 @@ int	main(int argc, char **argv)
 	{
 		printf("No input detected, will use emergency instead...\n");
 	}
+
     DisplayData data = {
             .emergency = {7999, 5231, 6201, 7620, 3082, 1270, 6143, 9568, 5798, 658, 4831, 9570, 9690, 4802,
                                  3578, 8209, 691, 9815, 1698, 860, 2531, 1643, 9374, 2930, 4349, 3830, 428, 3896, 8532,
@@ -50,22 +51,36 @@ int	main(int argc, char **argv)
                                  4933, 1368, 7211, 7838, 9145, 1991, 2125, 8484, 1919, 9027, 814, 8384, 6590, 8162,
                                  8512, 1067, 2820, 4841, 6089, 9304, 9597, 7771}
     };
+
+    int dup;
+    int sorted;
     DisplayData *display;
+
     display = &data;
     display->argc = argc;
     display->argv = argv;
+
 	display->a = init_new_node(1);
     if (!display->a)
         return (-1);
+
 	display->b = init_new_node(2);
     if (!display->b)
         return(-1);
+
 	fill_node_a(display);
-    int dup;
+    sorted = sortCheck(display);
+    if ( sorted == 0)
+    {
+        printf("Array is already sorted\n", dup);
+        reset(display);
+        return(1);
+    }
     dup = duplicate(display->a);
     if (dup!= 0)
     {
         printf("Duplicate found: %d\n", dup);
+        reset(display);
         return(1);
     }
 	min = find_min(display->a);
@@ -75,11 +90,14 @@ int	main(int argc, char **argv)
 	error =	sdl_start(display);
 	if ( error == 0 )
     {
+        reset(display);
         TTF_Quit();
         Mix_CloseAudio();
         SDL_Quit();
         return (0);
     }
+
+    reset(display);
     TTF_Quit();
     Mix_CloseAudio();
     SDL_Quit();

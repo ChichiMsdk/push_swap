@@ -219,7 +219,7 @@ void	push(node *dest, node *src, struct DisplayData *display)
         counter++;
         int error;
         error = 1;
-        error = updater(display);
+        //error = updater(display);
         if (error ==0)
             exit(1);
     }

@@ -160,32 +160,7 @@ char	*ft_itoa(int n)
     return (s);
 }
 
-void    drawing(struct DisplayData *display)
-{
-    if (display->a->next) {
-        node *tmp;
-        tmp = display->a->next;
-        int i = 0;
-        while (i < numBarsA && tmp) {
-            if (tmp->progress < 1)
-            {
-                if (tmp->progress < 0.7)
-                    tmp->progress += 0.03;
-                if (tmp->progress >= 0.7)
-                    tmp->progress += 0.01;
-                if (tmp->progress >= 1)
-                    tmp->progress = 1;
-                tmp->scaled = lerp(tmp->start_scaled, tmp->scaled, tmp->progress);
-            }
-            colorGR(tmp);
-            SDL_SetRenderDrawColor(display->renderer, tmp->skin.r, tmp->skin.g, tmp->skin.b, 255);
-            SDL_Rect rect = {0, i * 2 * display->barWidth, tmp->scaled, display->barWidth};
-            SDL_RenderFillRect(display->renderer, &rect);
-            i++;
-            tmp = tmp->next;
-        }
-    }
-}
+
 
 void    removingB(SDL_Renderer *renderer, node *tmpb, int barWidth)
 {
@@ -230,6 +205,33 @@ void	*drawCounter(struct DisplayData *display, int counter)
     free (str_count);
 }
 
+void    drawing(struct DisplayData *display)
+{
+    if (display->a->next) {
+        node *tmp;
+        tmp = display->a->next;
+        int i = 0;
+        while (i < numBarsA && tmp) {
+//            if (tmp->progress < 1)
+//            {
+//                if (tmp->progress < 0.7)
+//                    tmp->progress += 0.03;
+//                if (tmp->progress >= 0.7)
+//                    tmp->progress += 0.01;
+//                if (tmp->progress >= 1)
+//                    tmp->progress = 1;
+//                tmp->scaled = lerp(tmp->start_scaled, tmp->scaled, tmp->progress);
+//            }
+        colorGR(tmp);
+        SDL_SetRenderDrawColor(display->renderer, tmp->skin.r, tmp->skin.g, tmp->skin.b, 255);
+        SDL_Rect rect = {0, i * 2 * display->barWidth, tmp->scaled, display->barWidth};
+        SDL_RenderFillRect(display->renderer, &rect);
+        i++;
+        tmp = tmp->next;
+    }
+}
+}
+
 void    drawingB(struct DisplayData *display)
 {
     countBars(display->b);
@@ -240,16 +242,16 @@ void    drawingB(struct DisplayData *display)
         int i = 0;
         while (tmpb && i < numBarsB)
         {
-            if (tmpb->progress < 1)
-            {
-                if (tmpb->progress < 0.7)
-                    tmpb->progress += 0.03;
-                if (tmpb->progress >= 0.7)
-                    tmpb->progress += 0.01;
-                if (tmpb->progress >= 1)
-                    tmpb->progress = 1;
-                tmpb->scaled = lerp(tmpb->start_scaled, tmpb->scaled, tmpb->progress);
-            }
+//            if (tmpb->progress < 1)
+//            {
+//                if (tmpb->progress < 0.7)
+//                    tmpb->progress += 0.03;
+//                if (tmpb->progress >= 0.7)
+//                    tmpb->progress += 0.01;
+//                if (tmpb->progress >= 1)
+//                    tmpb->progress = 1;
+//                tmpb->scaled = lerp(tmpb->start_scaled, tmpb->scaled, tmpb->progress);
+//            }
             colorGR(tmpb);
             SDL_SetRenderDrawColor(display->renderer, tmpb->skin.r, tmpb->skin.g, tmpb->skin.b, 255);
             SDL_Rect rect = {WINDOW_WIDTH - tmpb->scaled, i * 2 * display->barWidth, tmpb->scaled, display->barWidth};
