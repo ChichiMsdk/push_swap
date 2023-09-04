@@ -18,11 +18,7 @@ find_package(SDL2_mixer REQUIRED)
 find_package(SDL2_ttf REQUIRED)
 include_directories(
         .
-        ${SDL2_INCLUDE_DIRS}
-        x86_64-w64-mingw32/include
-        x86_64-w64-mingw32/include/SDL2
-        sdl_mixer/include/SDL2
-        SDL2_ttf/include/SDL2
+        /frame
 )
 
 add_executable(push_swap
