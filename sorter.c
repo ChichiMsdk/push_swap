@@ -1,36 +1,134 @@
 #include "push_swap.h"
-
-int	sort(struct DisplayData *display)
+void	sort(node *a, node *b, struct DisplayData *display)
 {
-    if (!display->a && !display->b)
-        return(-1);
-
-    node *a;
-    node *b;
-    int sorted;
-    int valueA;
-    int valueB;
-    int i;
-
-    a = display->a;
-    b = display->b;
-    sorted = sortCheck(display);
-
-    while (sorted != 0)
+    numBarsA = 0;
+    countBars(a);
+    if (numBarsA <= 2)
+        return;
+    //petit(a);
+    //updater(display);
+	int pivot;
+    pivot= average(a);
+    int maxi;
+    maxi = find_max(a);
+    if (pivot != maxi)
     {
-        sorted = sortCheck(display);
-        if (!b->next && a->next)
-            rotate_min(display);
-        if (a->next && b)
-            pusher(display);
-        if (!a->next && b->next)
-            rotate_max(display); //USELESS HAHAHAA
-        if (b->next && a)
-            pusherBig(display);
-        //updater(display);
+        maxi -= pivot - 1;
+        sorter(a, b, maxi - pivot, display);
     }
+    else
+        sorterB(b,a,pivot, display);
+	sort(a, b, display);
 
-    return(0);
+    //updater(display);
+	//merge(a, b, display);
+}
+
+void	sortB(node *b, node *a, struct DisplayData *display)
+{
+    numBarsB = 0;
+    countBars(b);
+    if (numBarsB <= 2)
+        return;
+    //petit(a);
+    //updater(display);
+	int pivot;
+    pivot = average(b);
+    int maxiB;
+    maxiB = find_max(b);
+    if (average != maxiB)
+    {
+        maxiB -= pivot-1;
+        sorterB(b, a, maxiB-pivot, display);
+    }
+    else
+        sorterB(b,a,pivot, display);
+	sortB(b, a, display);
+    //updater(display);
+	//merge(a, b, display);
+}
+
+void	sorterB(node *a, node *b, int pivot, struct DisplayData *display)
+{
+    if (pivot <= 0)
+        pivot = average(a);
+    int i;
+    i = 0;
+    int checker;
+    checker = 0;
+    node *tmp = a->next;
+    while (i < numBarsB)
+    {
+        if (tmp && tmp->next && tmp->value < tmp->next->value )
+            swap(a, display);
+        if (tmp && tmp->value >= pivot)
+        {
+            push(b, a, display);
+            checker++;
+            numBarsB =0;
+            countBars(a);
+            tmp = a->next;
+        }
+        else
+        {
+            rotate(a, display);
+        }
+        i++;
+    }
+    if (checker > 1)
+        sorterB(a, b, pivot, display);
+}
+
+void	sorter(node *a, node *b, int pivot, struct DisplayData *display)
+{
+    if (pivot <= 0)
+        pivot = average(a);
+	int i;
+	i = 0;
+	int checker;
+	checker = 0;
+    node *tmp = a->next;
+	while (i < numBarsA)
+	{
+        if (tmp && tmp->next && tmp->value > tmp->next->value )
+            swap(a, display);
+		if (tmp && tmp->value <= pivot)
+		{
+			push(b, a, display);
+			checker++;
+            numBarsA =0;
+            countBars(a);
+            tmp = a->next;
+		}
+		else
+        {
+			rotate(a, display);
+        }
+		i++;
+	}
+	if (checker > 1)
+		sorter(a, b, pivot, display);
+}
+
+void	merge(node *a, node *b, struct DisplayData *display)
+{
+    node *tmp;
+    if (!b)
+        return;
+    if(b->next)
+        tmp = b->next;
+    else
+        return;
+    grand(b);
+    while (tmp && b->next)
+    {
+        if (tmp->next && tmp->value < tmp->next->value)
+            swap(b, display);
+        push(a, b, display);
+        updater(display);
+        if (b->next)
+            tmp = b->next;
+    }
 }
 
 int sortCheck(struct DisplayData *display)

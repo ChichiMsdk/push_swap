@@ -86,13 +86,18 @@ void	        	s_rot(node *a, node *b,  struct DisplayData *display);
 void	        	s_rev(node *a, node *b,  struct DisplayData *display);
 //sorting
 
+void	            sortB(node *b, node *a, struct DisplayData *display);
+void				merge(node *a, node *b, struct DisplayData *display);
+void				sorter(node *a, node *b, int pivot, struct DisplayData *display);
+void				sorterB(node *a, node *b, int pivot, struct DisplayData *display);
+void                sort(node *a, node *b, struct DisplayData *display);
 int                 sortCheck(struct DisplayData *display);
 void                pusherBig(struct DisplayData *display);
-int                 sort(struct DisplayData *display);
 void                pusher(struct DisplayData *display);
 void                rotate_max(struct DisplayData *display);
 void                rotate_min(struct DisplayData *display);
 int                 petit(node *a);
+int                 grand(node *a);
 int                 duplicate(node *a);
 ////////////////////////////////////////////////////////////////////////////////////////
 //function for gui below

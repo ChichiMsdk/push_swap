@@ -55,9 +55,9 @@ void	print_graph(int value)
 
 void	reset(struct DisplayData *display)
 {
-    if (!display->a->next && !display->b->next)
-        iwww = 100;
-    if (display->a)
+    //if (!display->a->next && !display->b->next)
+     //   iwww = 100; errors????
+    if (display->a && display->a->next)
     {
         node *tmp;
         if (display->a->next) {
@@ -72,7 +72,7 @@ void	reset(struct DisplayData *display)
             tmp = NULL;
         }
     }
-    if (display->b)
+    if (display->b && display->b->next)
     {
         node *tmp;
         if (display->b->next) {
@@ -305,6 +305,11 @@ int average(node *a)
         count = 1;
         average = 0;
         tmp = a->next;
+        if (tmp && !tmp->next)
+        {
+            average += tmp->value;
+            return(average);
+        }
         while ( tmp && tmp->next )
         {
             average = average + tmp->value;

@@ -1,0 +1,6 @@
+# ninja log v5
+3	782	7146030361842481	CMakeFiles/push_swap.dir/printers.c.obj	d0ada92bf66ae0eb
+6	790	7146030361927572	CMakeFiles/push_swap.dir/push_swap.c.obj	437d406645f64c9d
+11	799	7146030362017563	CMakeFiles/push_swap.dir/push_swap_utils.c.obj	f0d32813b13abb2b
+799	855	7146001820068142	push_swap.exe	8f0c7844ce5684d1
+9	794	7146030361977597	CMakeFiles/push_swap.dir/movement.c.obj	f1470808882e9d4

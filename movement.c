@@ -98,14 +98,17 @@ int	event_kb(struct DisplayData *display)
                 break;
             case SDLK_r:
                 push(display->b,display->a, display);
-                //updater(display);
+                updater(display);
                 break;
             case SDLK_5:
-                sfx(3, display->soundfx);
-                son--;
+                sortB(display->b, display->a, display);
+                //sfx(3, display->soundfx);
+                //son--;
+                updater(display);
+                break;
             case SDLK_t:
                 //son++;
-                sort(display);
+                sort(display->a, display->b, display);
                 updater(display);
                 break;
             case SDLK_o:
@@ -116,7 +119,7 @@ int	event_kb(struct DisplayData *display)
                 break;
             case SDLK_u:
                 push(display->a, display->b,display);
-                //updater(display);
+                updater(display);
                 break;
             case SDLK_l:
                 swap(display->b, display);
@@ -173,6 +176,10 @@ int sfx(int play, Mix_Chunk *soundfx)
 }
 int    updater(struct DisplayData *display)
 {
+    numBarsA = 0;
+    countBars(display->a);
+    numBarsB = 0;
+    countBars(display->b);
     int i = 1;
     while (i > 0)
     {
@@ -199,6 +206,10 @@ int    updater(struct DisplayData *display)
 int    update_display(struct DisplayData *display)
 {
     while(1) {
+        numBarsB=0;
+        countBars(display->b);
+        numBarsA=0;
+        countBars(display->a);
         SDL_SetRenderDrawColor(display->renderer, 0, 0, 0, 255); // Black background
         SDL_RenderClear(display->renderer);
         {
