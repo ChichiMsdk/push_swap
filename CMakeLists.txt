@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required(VERSION 3.23)
 project(push_swap C)
 
 #set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")

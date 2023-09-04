@@ -67,7 +67,7 @@ void	reset(struct DisplayData *display)
                 free(tmp->prev);
                 tmp->prev = NULL;
             }
-            display->a->next = NULL;
+			display->a->next= NULL;
             free(tmp);
             tmp = NULL;
         }
@@ -80,9 +80,9 @@ void	reset(struct DisplayData *display)
             while (display->b && tmp->next) {
                 tmp = tmp->next;
                 free(tmp->prev);
-                tmp->prev = NULL;
+				tmp->prev = NULL;
             }
-            display->b->next = NULL;
+			display->a->next= NULL;
             free(tmp);
             tmp = NULL;
         }
@@ -203,6 +203,7 @@ void	*drawCounter(struct DisplayData *display, int counter)
         SDL_DestroyTexture(texture);
     }
     free (str_count);
+	return(NULL);
 }
 
 void    drawing(struct DisplayData *display)

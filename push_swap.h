@@ -1,16 +1,19 @@
 #ifndef PUSH_SWAP_H
 # define PUSH_SWAP_H
 # include <unistd.h>
-# include <SDL2/SDL.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <limits.h>
 # include <stdbool.h>
+//# include <SDL2/SDL.h>
 //# include <SDL2/SDL_mixer.h>
 //# include <SDL2/SDL_ttf.h>
-# include "sdl_mixer/include/SDL2/SDL_mixer.h"
-# include "SDL2_ttf\include\SDL2\SDL_ttf.h"
-# include "x86_64-w64-mingw32/include/SDL2/SDL.h"
+# include <SDL2/SDL.h>
+# include <SDL2_mixer/SDL_mixer.h>
+# include <SDL2_ttf/SDL_ttf.h>
+//# include "sdl_mixer/include/SDL2/SDL_mixer.h"
+//# include "SDL2_ttf\include\SDL2\SDL_ttf.h"
+//# include "x86_64-w64-mingw32/include/SDL2/SDL.h"
 //# include "/opt/homebrew/Cellar/sdl2/2.28.2/include/SDL2/SDL.h" //mac
 //# include <ncurses.h>
 #endif

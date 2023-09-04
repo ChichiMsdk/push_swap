@@ -14,7 +14,7 @@ void	sort(node *a, node *b, struct DisplayData *display)
     if (pivot != maxi)
     {
         maxi -= pivot - 1;
-        sorter(a, b, maxi - pivot, display);
+        sorter(a, b, pivot, display);
     }
     else
         sorterB(b,a,pivot, display);
@@ -36,10 +36,10 @@ void	sortB(node *b, node *a, struct DisplayData *display)
     pivot = average(b);
     int maxiB;
     maxiB = find_max(b);
-    if (average != maxiB)
+    if (pivot != maxiB)
     {
         maxiB -= pivot-1;
-        sorterB(b, a, maxiB-pivot, display);
+        sorterB(b, a, pivot, display);
     }
     else
         sorterB(b,a,pivot, display);

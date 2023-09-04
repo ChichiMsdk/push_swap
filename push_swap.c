@@ -72,7 +72,7 @@ int	main(int argc, char **argv)
     sorted = sortCheck(display);
     if ( sorted == 0)
     {
-        printf("Array is already sorted\n", dup);
+        printf("Array is already sorted\n");
         reset(display);
         return(1);
     }
