@@ -2,65 +2,130 @@
 
 void	sort(node *a, node *b, struct DisplayData *display)
 {
+	static int counted;
 	node *tmp;
 	int pivot;
 	sorterB(a, b, pivot, display);
-	if (a->size <=1)
+	printf("count  = %d\n", counted);
+	if (a->size <= 1)
 		return;
 	pivot = sortB(a, b, display); //pivot == last element
+//	pivot = 789;
 	printf("pivot = %d\n", pivot);
-	if (!a->next || pivot == -1 || !a->next->next)
+	if (counted >= a->size || !a->next || pivot == -1 || !a->next->next)
+	{
+		counted = 0;
 		return;
+	}
+	int bigger = 0;
+	printf("size = %d\n", a->size);
 	tmp = a->next;
 	sorterB(a, b, pivot, display); // a->size is set;
-	printf("size of %d is : %d\n", a->name, a->size);
 	int size = a->size;
-	while ( a->size > 0 && tmp && tmp->next)
+	while ( size > 0 && tmp && tmp->next)
 	{
 		if (tmp->value < pivot)
 		{
 			push(b, a, display);
 			tmp = a->next;
+			updater(display);
 		}
 		else
+		{
 			rotate( a, display);
-		a->size--;
+			bigger++;
+		}
+		size--;
 	}
+	int k;
+	for (k = 0; k <bigger; k++)
+		push(b,a, display);
 
-	sort(a, b, display); sort(b, a, display);
+	counted++;
+	sort(a, b, display);
+	sort(b, a, display);
 
 	while(b->next)
+	{
 		push(a, b, display);
+		updater(display);
+	}
     //updater(display);
 	//merge(a, b, display);
 }
-
-int	sortB(node *b, node *a, struct DisplayData *display)
+int sortB(node *b, node *a, struct DisplayData *display) 
 {
-	node *tmp;
-	if (!b->next)
-		return (-1);
-	tmp = b->next;
-	while (tmp->next)
-	{
-		tmp = tmp->next;
-	}
-	return (tmp->value);
+    if (!b->next)
+        return -1;
+
+    node *tmp = b->next;
+
+    // Find the first element
+    int first = tmp->value;
+
+    // Find the last element
+    while (tmp->next != NULL) {
+        tmp = tmp->next;
+    }
+    int last = tmp->value;
+
+    // Find the middle element
+    int middle;
+    int size = (b->size % 2 == 0) ? (b->size / 2) : (b->size / 2 + 1);
+    tmp = b->next;
+    for (int i = 0; i < size - 1; i++) {
+        tmp = tmp->next;
+    }
+    middle = tmp->value;
+
+    // Get the median of the first, middle and last elements
+    int pivot = median_of_three(first, middle, last);
+
+    return pivot;
 }
+
+int median_of_three(int a, int b, int c) 
+{
+    if ((a > b) != (a > c))
+        return a;  // a is the median
+    else if ((b > a) != (b > c))
+        return b;  // b is the median
+    else
+        return c;  // c is the median
+}
+
+//int	sortB(node *b, node *a, struct DisplayData *display)
+//{
+//	node *tmp;
+//	if (!b->next)
+//		return (-1);
+//	tmp = b->next;
+//	sorterB(b, a,10 ,display);
+//	int prout = b->size;
+//	prout /=2;
+//	while (prout >0 && tmp->next)
+//	{
+//		tmp = tmp->next;
+//		prout--;
+//	}
+//	return (tmp->value);
+//}
 
 void	sorterB(node *a, node *b, int pivot, struct DisplayData *display)
 {
+	if (!a || !a->next )
+		return;
 	int i;
 	i = 0;
 	node *tmp;
-	if (a->next)
-		tmp = a->next;
-	while (tmp->next)
+	tmp = a->next;
+	i++;
+	while ( tmp && tmp->next)
 	{
-		tmp =tmp->next;
+		tmp = tmp->next;
 		i++;
 	}
-	a->size = 0;
+	a->size = i;
 }
 
 void	sorter(node *a, node *b, int pivot, struct DisplayData *display)
