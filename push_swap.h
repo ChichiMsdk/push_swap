@@ -57,6 +57,7 @@ typedef struct DisplayData {
 typedef struct node 
 {
     int             index;
+	int				size;
 	double			scaled;
 	double			start_scaled;
 	int				value;
@@ -89,7 +90,7 @@ void	        	s_rot(node *a, node *b,  struct DisplayData *display);
 void	        	s_rev(node *a, node *b,  struct DisplayData *display);
 //sorting
 
-void	            sortB(node *b, node *a, struct DisplayData *display);
+int		            sortB(node *b, node *a, struct DisplayData *display);
 void				merge(node *a, node *b, struct DisplayData *display);
 void				sorter(node *a, node *b, int pivot, struct DisplayData *display);
 void				sorterB(node *a, node *b, int pivot, struct DisplayData *display);
