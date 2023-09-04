@@ -124,7 +124,7 @@ void	r_rotate(node *reverse, struct DisplayData *display)
 {
 	if (!reverse->next || !reverse->next->next || !reverse->next->next->next )
 	{
-		printf("Error\n");
+		printf("Error reverse \n");
         iwww=100;
 	}
 	else
@@ -151,7 +151,7 @@ void	rotate(node *rotate, struct DisplayData *display)
 {	
 	if (!rotate->next || !rotate->next->next  || !rotate->next->next->next )
 	{
-		printf("Error\n");
+		printf("Error rotate\n");
         iwww=100;
 	}
 	else 
@@ -209,7 +209,7 @@ void	push(node *dest, node *src, struct DisplayData *display)
 {
 	if (!src->next)
     {
-		printf("Error\n");
+		printf("Error push\n");
         iwww=100;
     }
     if ( src->next)
