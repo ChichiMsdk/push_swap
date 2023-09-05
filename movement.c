@@ -138,7 +138,7 @@ int	event_kb(struct DisplayData *display)
 			case SDLK_a:
 				reset(display);
                 time = 100;
-                fill_node_a(display);
+                //fill_node_a(display);
                 update_display(display);
 				break;
 	        }

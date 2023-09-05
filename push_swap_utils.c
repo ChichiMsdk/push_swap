@@ -62,15 +62,15 @@ int numBar(node *a)
 
 void * add_node(node *a , int value, int head)
 {
+	if(!a)
+        return(a);
 	node	*new_node;
 	new_node = malloc(sizeof(node));
     if (!new_node)
         return (NULL);
 	new_node->value = value;
     new_node->progress = 0;
-    if(!a)
-        return(a);
-
+    
 	if (a->next == NULL)
 	{
 		a->next = new_node;

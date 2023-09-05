@@ -5,16 +5,16 @@ static void quicksort(int *arr, int low, int high)
     if (low < high)
     {
         sw = partition(arr, low, high);
-        quicksort(arr, low, sw - 1);
-        quicksort(arr, sw + 1, high);
+        quicksort();
+        quicksort();
     }
 }
-int *sort_stack(t_ps_list *s)
+int *sort_stack(node *s)
 {
     int *k;
     int i;
 
-    k = malloc(sizeof(int) * nodeSize(s));
+    k = malloc(sizeof(int) * nodeSize(s, display));
     if (!k)
         exit(1);
     i = 0;
@@ -26,23 +26,21 @@ int *sort_stack(t_ps_list *s)
     quicksort(k, 0, i - 1);
     return (k);
 }
-quick_sor
-
-void    sort_over(node *a, int s, struct DisplayData display)
+void    sort_over(node *a, int s, struct DisplayData *display)
 {
     int j;
     int *k;
 
     k = sort_stack(a->next);
-    j = ft_p_lstsize(a->next) - 1;
-    put_to_b(push, s, k);
+    j = nodeSize(a->next) - 1;
+    put_to_b(display, s, k);
     while (a->next)
     {
         push(display->b, a,display );
         if (display->b->next < k[j / 2])
             rotate(a, display);
     }
-    put_to_a(push, k[j], 0);
+    put_to_a(display, k[j], 0);
     free(k);
 }
 

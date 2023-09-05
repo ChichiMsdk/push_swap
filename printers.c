@@ -53,7 +53,7 @@ void	print_graph(int value)
 	printf("\n");
 }
 
-void	reset(struct DisplayData *display)
+/*void	reset(struct DisplayData *display)
 {
     //if (!display->a->next && !display->b->next)
      //   iwww = 100; errors????
@@ -88,6 +88,58 @@ void	reset(struct DisplayData *display)
         }
     }
     counter = 0;
+	}*/
+
+void reset(struct DisplayData *display)
+{
+	if (display->a && display->a->next)
+	{
+		node *tmp;
+		tmp = display->a;
+		while (tmp->next)
+		{
+			tmp = tmp->next;
+		}	
+		tmp = tmp->prev;
+		while (tmp->prev)
+		{
+			free(tmp->next);
+			//tmp->next = NULL;
+			tmp = tmp->prev;
+		}
+		if (tmp == display->a)
+		{
+			free(display->a);
+			//display->a = NULL;
+		}
+			display->a = init_new_node(1);
+			fill_node_a (display);  
+			
+			min = find_min(display->a);
+			max = find_max(display->a);
+	}
+	if (display->b && display->b->next)
+		{
+			node *tmp;
+			tmp = display->b;
+			while (tmp->next)
+			{
+				tmp = tmp->next;
+			}	
+			tmp = tmp->prev;
+			while (tmp->prev)
+			{
+				free(tmp->next);
+				//tmp->next = NULL;
+				tmp = tmp->prev;
+			}
+			if (tmp == display->b)
+			{
+				free(display->b);
+				//display->b = NULL;
+			}
+			display->b = init_new_node(2);
+		}
 }
 
 void    colorGR(node *tmp)

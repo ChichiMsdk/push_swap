@@ -24,12 +24,15 @@ lerp	printers.c	/^double   lerp(double a, double b, double f)$/
 median_of_three	sorter_backup.c	/^int median_of_three(int a, int b, int c) $/
 merge	sorter_backup.c	/^void	merge(node *a, node *b, struct DisplayData *d/
 numBar	push_swap_utils.c	/^int numBar(node *a)$/
+partition	sorter.c	/^static int  partition(int *arr, int low, int high)/
 petit	sorter_backup.c	/^int petit(node *a)$/
 print_graph	printers.c	/^void	print_graph(int value)$/
 print_stack	printers.c	/^void	print_stack(node *a,node *b, int argc)$/
 push	push_swap_utils.c	/^void	push(node *dest, node *src, struct DisplayDat/
 pusher	sorter_backup.c	/^void    pusher(struct DisplayData *display)$/
 pusherBig	sorter_backup.c	/^void    pusherBig(struct DisplayData *display)$/
+put_to_b	sorter.c	/^void    put_to_b(struct DisplayData *display, int /
+quicksort	sorter.c	/^static void quicksort(int *arr, int low, int high)/
 r_rotate	push_swap_utils.c	/^void	r_rotate(node *reverse, struct DisplayData *d/
 remove_node	push_swap_utils.c	/^void	remove_node(node *remove)$/
 removingB	printers.c	/^void    removingB(SDL_Renderer *renderer, node *tm/
@@ -45,9 +48,11 @@ scale_value	movement.c	/^double scale_value(double value, double min_value,/
 sdl_start	movement.c	/^int	sdl_start(struct DisplayData *display)$/
 sfx	movement.c	/^int sfx(int play, Mix_Chunk *soundfx)$/
 smoothstep	movement.c	/^double  smoothstep(double x)$/
-sort	sorter_backup.c	/^void	sort(node *a, node *b, struct DisplayData *di/
+sort	sorter.c	/^void	sort(node *a, display)$/
 sortB	sorter_backup.c	/^int sortB(node *b, node *a, struct DisplayData *di/
 sortCheck	sorter_backup.c	/^int sortCheck(struct DisplayData *display)$/
+sort_over	sorter.c	/^void    sort_over(node *a, int s, struct DisplayDa/
+sort_stack	sorter.c	/^int *sort_stack(t_ps_list *s)$/
 sorter	sorter_backup.c	/^void	sorter(node *a, node *b, int pivot, struct Di/
 sorterB	sorter_backup.c	/^void	sorterB(node *a, node *b, int pivot, struct D/
 swap	push_swap_utils.c	/^void	swap(node *a,struct DisplayData *display)$/
