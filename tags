@@ -1,0 +1,56 @@
+Mpush_swap	push_swap.c	/^int	main(int argc, char **argv)$/
+add_node	push_swap_utils.c	/^void * add_node(node *a , int value, int head)$/
+average	printers.c	/^int average(node *a)$/
+caller	printers.c	/^void    caller(int prout)$/
+colorGR	printers.c	/^void    colorGR(node *tmp)$/
+countBars	printers.c	/^void    countBars(node *count)$/
+drawCounter	printers.c	/^void	*drawCounter(struct DisplayData *display, int/
+drawing	printers.c	/^void    drawing(struct DisplayData *display)$/
+drawingB	printers.c	/^void    drawingB(struct DisplayData *display)$/
+duplicate	sorter_backup.c	/^int	duplicate(node *a)$/
+event_kb	movement.c	/^int	event_kb(struct DisplayData *display)$/
+fill_node_a	push_swap_utils.c	/^void	fill_node_a(struct DisplayData *display)$/
+find_max	push_swap_utils.c	/^double	find_max(node *a)$/
+find_min	push_swap_utils.c	/^double	find_min(node *a)$/
+fonter	movement.c	/^int fonter(struct DisplayData *display, char *text/
+ft_atoi	push_swap_utils.c	/^int	ft_atoi(const char *str)$/
+ft_char	printers.c	/^static char	*ft_char(char *s, unsigned int number,/
+ft_isspace	push_swap_utils.c	/^int	ft_isspace(char c)$/
+ft_itoa	printers.c	/^char	*ft_itoa(int n)$/
+ft_len	printers.c	/^static long int	ft_len(int n)$/
+grand	sorter_backup.c	/^int grand(node *b)$/
+init_new_node	push_swap_utils.c	/^node*	init_new_node(int name)$/
+lerp	printers.c	/^double   lerp(double a, double b, double f)$/
+median_of_three	sorter_backup.c	/^int median_of_three(int a, int b, int c) $/
+merge	sorter_backup.c	/^void	merge(node *a, node *b, struct DisplayData *d/
+numBar	push_swap_utils.c	/^int numBar(node *a)$/
+petit	sorter_backup.c	/^int petit(node *a)$/
+print_graph	printers.c	/^void	print_graph(int value)$/
+print_stack	printers.c	/^void	print_stack(node *a,node *b, int argc)$/
+push	push_swap_utils.c	/^void	push(node *dest, node *src, struct DisplayDat/
+pusher	sorter_backup.c	/^void    pusher(struct DisplayData *display)$/
+pusherBig	sorter_backup.c	/^void    pusherBig(struct DisplayData *display)$/
+r_rotate	push_swap_utils.c	/^void	r_rotate(node *reverse, struct DisplayData *d/
+remove_node	push_swap_utils.c	/^void	remove_node(node *remove)$/
+removingB	printers.c	/^void    removingB(SDL_Renderer *renderer, node *tm/
+reset	printers.c	/^void	reset(struct DisplayData *display)$/
+rotate	push_swap_utils.c	/^void	rotate(node *rotate, struct DisplayData *disp/
+rotate_max	sorter_backup.c	/^void    rotate_max(struct DisplayData *display)$/
+rotate_min	sorter_backup.c	/^void    rotate_min(struct DisplayData *display)$/
+s_rev	push_swap_utils.c	/^void	s_rev(node *a, node *b, struct DisplayData *d/
+s_rot	push_swap_utils.c	/^void	s_rot(node *a, node *b,  struct DisplayData */
+s_swap	push_swap_utils.c	/^void	s_swap(node *a, node *b, struct DisplayData */
+scale_bar	movement.c	/^void	scale_bar(node *a)$/
+scale_value	movement.c	/^double scale_value(double value, double min_value,/
+sdl_start	movement.c	/^int	sdl_start(struct DisplayData *display)$/
+sfx	movement.c	/^int sfx(int play, Mix_Chunk *soundfx)$/
+smoothstep	movement.c	/^double  smoothstep(double x)$/
+sort	sorter_backup.c	/^void	sort(node *a, node *b, struct DisplayData *di/
+sortB	sorter_backup.c	/^int sortB(node *b, node *a, struct DisplayData *di/
+sortCheck	sorter_backup.c	/^int sortCheck(struct DisplayData *display)$/
+sorter	sorter_backup.c	/^void	sorter(node *a, node *b, int pivot, struct Di/
+sorterB	sorter_backup.c	/^void	sorterB(node *a, node *b, int pivot, struct D/
+swap	push_swap_utils.c	/^void	swap(node *a,struct DisplayData *display)$/
+update_display	movement.c	/^int    update_display(struct DisplayData *display)/
+updater	movement.c	/^int    updater(struct DisplayData *display)$/
+window_quit	movement.c	/^void	window_quit(struct DisplayData *display)$/

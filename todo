@@ -5,11 +5,13 @@
 -- Do Makefile.
 -- Check if leaks.
 -- Check if norminette.
+-- Add the printerinstruction function.
 -- Handle errors according to the subject.
 -- Do bonus. (checker)
 -- Do README.
 -- Check updater function for events and keypresses.
-
+-- Github : https://github.com/IgorDeSpi/19_Push_swap/blob/main/src/init.c
+implement better duplicate.
 
 
 
